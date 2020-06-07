@@ -80,8 +80,8 @@ stof_doctrine_extensions:
 swiftmailer:
     transport: 'gmail'
     host:      'smtp.gmail.com'
-    username:  'zourounatunisia@gmail.com'
-    password:  '04022019Zourouna'
+    username:  ''
+    password:  ''
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
