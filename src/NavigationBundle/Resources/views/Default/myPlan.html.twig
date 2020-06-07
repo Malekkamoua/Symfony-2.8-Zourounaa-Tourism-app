@@ -1,0 +1,95 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %} My plan {% endblock %}
+
+{% block VariableContent %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" <link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var Loadpath = "{{ absolute_url(path('navigation_load_bookings')) }}";
+        /*const routes = require('../../public/js/fos_js_routes.json');
+        import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+
+        Routing.setRoutingData(routes);
+
+        var details = Routing.generate('navigation_details_and_reservation');
+
+        var oldUrl = $(this).attr("href");
+        $(this).attr("href", details);*/
+
+        var calendar = $('#calendar').fullCalendar({
+            editable: true,
+            eventStartEditable: false,
+            allDaySlot: false,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listWeek'
+            },
+            events: Loadpath,
+            eventClick: function (event, jsEvent, view) {
+                endtime = $.fullCalendar.moment(event.end).format('h:mm');
+                starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
+                $('#modalTitle').html(event.title);
+                $('#modalWhen').text(event.start);
+                $('#eventID').val(event.id);
+                $('#calendarModal').modal();
+                $('#go-to-activity').attr('data-slug', event.slug);
+            },
+
+        });
+
+        $(document).on('click', '#go-to-activity', function(){
+            
+            var link = $('#calendar').data('activity-path').replace('activity-slug',$('#go-to-activity').data('slug') );
+            window.location=link;
+
+        });
+
+    });
+</script>
+</head>
+
+<body>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            	<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+        </li>
+        <li class="breadcrumb-item active">My plan</li>
+    </ol>
+
+    <div class="container">
+        <div id="calendar" data-activity-path="{{ path('navigation_details_and_reservation', { slug : 'activity-slug' }) }}"></div>
+    </div>
+
+    <div id="calendarModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Booking Details</h4>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    <h id="modalTitle" class="modal-title"></h>
+                    <div id="modalWhen" style="margin-top:5px;"></div> <br>
+                </div>
+                <input type="hidden" id="eventID" />
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <a id="go-to-activity" class="btn btn-warning">See activity </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

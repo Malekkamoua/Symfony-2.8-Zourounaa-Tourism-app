@@ -1,0 +1,95 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}Reply {% endblock %}
+{% block VariableContent %}
+<html lang="en">
+
+<head>
+</head> 
+
+<body>
+ <div class="container-fluid">
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+				<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+		</li>
+		<li class="breadcrumb-item active">Reply</li>
+	</ol>
+	{% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert" style="width: 830px ; text-align: center">{{flashMessage}} </div>
+  {% endfor %}
+	<div class="box_general">
+			<div class="header_box">
+			</div>
+                <div class="list_general">
+{% block fos_message_content %}
+
+<h2>{{ thread.subject }}</h2>
+
+{% for message in thread.messages %}
+    <div class="messenger_thread_message">
+        <div class="messenger_thread_message_info">
+            <b>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle' %}message_info{% endtrans %}</b>
+        </div>
+
+        <div class="messenger_thread_message_body" id="message_{{ message.id }}">
+            {{ message.body }}
+        </div>
+    </div>
+{% endfor %}
+<br>
+
+
+<form action="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}" method="post" class="FormMsgs">
+    {{ form_widget(form) }}
+
+    <input type="submit" value="Reply" class="btn btn-warning" />
+</form>
+
+{% endblock %}
+{% endblock %}
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+
+<script>
+document.getElementsByName("message[recipient]")[0].setAttribute("value", "admin");
+</script>
+
+<script>
+	function FormMsgs() {
+		$('body').on('submit', '.FormMsgs', function (e) {
+
+			e.preventDefault();
+
+			$.ajax({
+				type: $(this).attr('method'),
+				url: $(this).attr('action'),
+				data: $(this).serialize(),
+	
+				success: function (data) {
+					if (typeof data.message !== 'undefined') {
+						$.alert(data.message);
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if (typeof jqXHR.responseJSON !== 'undefined') {
+						if (jqXHR.responseJSON.hasOwnProperty('form')) {
+							$.alert(jqXHR.responseJSON.form);
+						}
+
+						$.alert(jqXHR.responseJSON.message);
+
+					} else {
+						$.alert(errorThrown);
+					}
+				}
+			})
+		});
+	}
+	FormMsgs();
+</script>
+{% endblock %}

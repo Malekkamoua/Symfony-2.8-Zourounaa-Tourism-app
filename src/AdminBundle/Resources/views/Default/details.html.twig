@@ -1,0 +1,286 @@
+{% extends "AdminBundle:Default:base.html.twig" %}
+{% block title %} Activity details {% endblock %}
+{% block content %}
+
+<head>
+  <style>
+    /* Make the image fully responsive */
+    .carousel-inner img {
+      width: 100%;
+      height: 30%;
+    }
+    @media (max-width: 500px) {
+  .video{
+    width:100%;
+    height:350px;
+  }
+  .gllpmap{
+    width:100%;
+    height:350px;
+  }}
+   .gllpmap{
+			width: 100%;
+		}
+  
+  </style>
+</head>
+
+<body>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{{ path('dashboard')}}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active"> Details page </li>
+      </ol>
+      <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+          <h2><i class="demo-icon icon-Info"></i>Details page</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12 ">
+            <h3> {{activity.title}} </h3>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ul class="carousel-indicators">
+                {% for image in activity.image %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index}}}" {% if loop.index0 == 0 %}
+                  class="active" {% endif %}></li>
+                {% endfor %}
+              </ul>
+              <!-- The slideshow -->
+              <div class="carousel-inner">
+                {% for image in activity.image %}
+                <div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item"
+                  {% endif %}>
+                  <img src="{{asset(image.path)}}" alt="{{ image.path }}">
+                </div>
+                {% endfor %}
+
+              </div>
+              <!-- Left and right controls -->
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6 ">
+            <div class="form-group">
+              <ul>
+                <p> <i class="demo-icon icon-{{ activity.category.name }}"></i> Category : {{activity.category.name}}
+                </p>
+                <p> <i class="demo-icon icon-Hourglass"></i> Activity Duration : {{ activity.activityDuration }} </p>
+                <p> <i class="demo-icon icon-Language"></i> Languages :
+                  {% for language in activity.language %}
+                  -{{ language }}
+                  {% endfor %}
+                </p>
+                {% if activity.price is not null %} <p> <i class="demo-icon icon-Tunisian-dinar"></i> Price :
+                  {{ activity.price }} TND </p> {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group"><br>
+              {% if activity.video is not null  %}
+              <iframe class="video" width="730" height="400" src="{{activity.video}}" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group"> <br>
+              <p> <i class="demo-icon icon-File"></i>
+                Description : </br> {{ activity.description | raw }} </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <i class="demo-icon icon-Info"></i> Useful information :
+              <ul>
+                {% for information in activity.usefulinformation %}
+                <li> <i class="demo-icon icon-{{ information }}"></i> {{ information }} </li>
+                {% endfor %}
+              </ul>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            {% if activity.phone is not null or activity.email is not null or activity.website or activity.facebookLink %}
+            <div class="form-group">
+              <h6> Contacts : </h6>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {% if activity.phone is not null  %}
+              <p><i class="demo-icon icon-Phone-call"></i> Phone : +216 {{ activity.phone }} </p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {% if activity.email is not null  %}
+              <p><i class="demo-icon icon-Email"></i> Email : {{ activity.email }} </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {% if activity.website is not null  %}
+              <p><i class="demo-icon icon-Website"></i> Website : {{ activity.website }} </p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {% if activity.facebookLink is not null  %}
+              <p><i class="demo-icon icon-Facebook"></i> Facebook link : {{ activity.facebookLink }} </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <h6> Schedule : </h6>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <i class="demo-icon icon-Clock"></i> <label>Availability :</label>
+            <div class="row">
+              <div class="col-md-6">
+                <ul>
+                  {% if activity.availability.mondayOpening is not null
+                          and activity.availability.mondayClosing is not null %}
+                  <li> Monday : {{ activity.availability.mondayOpening }} - {{ activity.availability.mondayClosing }}
+                  </li>
+                  {% else %}
+                  <li> Monday : Closed </li>
+                  {% endif %}
+                  {% if activity.availability.tuesdayOpening is not null
+                          and activity.availability.tuesdayClosing is not null %}
+                  <li> Tuesday : {{ activity.availability.tuesdayOpening }} - {{ activity.availability.tuesdayClosing }}
+                  </li>
+                  {% else %}
+                  <li> Tuesday : Closed </li>
+                  {% endif %}
+                  {% if activity.availability.wednesdayOpening is not null
+                          and activity.availability.wednesdayClosing is not null %}
+                  <li> Wednesday : {{ activity.availability.wednesdayOpening }} -
+                    {{ activity.availability.wednesdayClosing }} </li>
+                  {% else %}
+                  <li> Wednesday : Closed </li>
+                  {% endif %}
+                  {% if activity.availability.ThursdayOpening is not null
+                          and activity.availability.ThursdayClosing is not null %}
+                  <li> Wednesday : {{ activity.availability.ThursdayOpening }} -
+                    {{ activity.availability.ThursdayClosing }} </li>
+                  {% else %}
+                  <li> Thursday : Closed </li>
+                  {% endif %}
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul>
+                  {% if activity.availability.fridayOpening is not null
+                          and activity.availability.fridayClosing is not null %}
+                  <li> Friday : {{ activity.availability.fridayOpening }} - {{ activity.availability.fridayClosing }}
+                  </li>
+                  {% else %}
+                  <li> Friday : Closed </li>
+                  {% endif %}
+                  {% if activity.availability.saturdayOpening is not null
+                          and activity.availability.saturdayClosing is not null %}
+                  <li> Saturday : {{ activity.availability.saturdayOpening }} -
+                    {{ activity.availability.saturdayClosing }} </li>
+                  {% else %}
+                  <li> Saturday : Closed </li>
+                  {% endif %}
+                  {% if activity.availability.sundayOpening is not null
+                          and activity.availability.sundayClosing is not null %}
+                  <li> Sunday : {{ activity.availability.sundayOpening }} - {{ activity.availability.sundayClosing }}
+                  </li>
+                  {% else %}
+                  <li> Sunday : Closed </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <h6> Location : </h6>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <p><i class="demo-icon icon-City"></i> City : {{activity.city.name }} </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <p> <i class="demo-icon icon-Location"></i> Address : {{activity.address }} </p>
+            </div>
+          </div>
+        </div>
+        <div class="row"> 
+        <div class="col-md-12">
+        <center>
+          <fieldset class="gllpLatlonPicker ">
+            <div class="gllpMap">Google Maps </div>
+            <input type="hidden" class="gllpLatitude" value="{{activity.latitude}}">
+            <input type="hidden" class="gllpLongitude" value="{{activity.longitude}}">
+            <input type="hidden" class="gllpZoom" value="{{activity.zoom}}">
+          </fieldset>
+        </center>
+        </div> 
+      </div> <br> <br>
+      <center> <a href="{{path('dash_activity_edit',{slug: activity.slug})}}" class="btn_1 gray"><i
+                                class="demo-icon icon-Edit"></i> Edit </a> </center>
+      </div>
+      {% include "AdminBundle:Default:nav.html.twig" %}
+    </div>
+  </div>
+ 
+  {% block javascripts %}
+  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyD9vrkLJKSv1SFSa-_ojqx3s8Q-uHM4U5Q"></script>
+
+  <!-- google maps -->
+  <script src="{{asset ("bundles/admin/js/jquery-gmaps-latlon-picker.js")}}"></script>
+
+  <script src="{{asset ("bundles/admin/js/admin.js") }}"> </script>
+  {% endblock %}
+
+  {% endblock %}

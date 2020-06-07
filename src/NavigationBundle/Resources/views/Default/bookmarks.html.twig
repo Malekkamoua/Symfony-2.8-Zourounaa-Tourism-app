@@ -1,0 +1,60 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}My bookmarks{% endblock %}
+{% block VariableContent %}
+<div class="container-fluid">
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+				<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+		</li>
+		<li class="breadcrumb-item active">Bookmarks</li>
+	</ol>
+	<center>
+		{% for flashMessage in app.session.flashbag.get('error') %}
+		<div class="alert alert-danger" role="alert" style="width: 100%  ; text-align: center">{{flashMessage}} </div>
+		{% endfor %}
+		{% for flashMessage in app.session.flashbag.get('success') %}
+		<div class="alert alert-success" role="alert" style="width: 100%  ; text-align: center">{{flashMessage}} </div>
+		{% endfor %}
+	</center>
+	<div class="box_general">
+		<div class="header_box">
+			<h2 class="d-inline-block">Bookmarks</h2>
+		</div>
+		<div class="list_general">
+			<ul>
+				{% for bookmark in app.user.bookmarks %}
+				<li id="{{bookmark.id}}">
+					<figure>
+						{% for image in bookmark.activity.image %}
+						<img src="{{asset(image.path)}}" class="img-fluid" alt="" width="400">
+						<div class="read_more"><span>Read more</span></div>
+						{% endfor %}
+					</figure>
+
+					<small>{{bookmark.activity.category}} </small>
+					<h4>{{bookmark.activity.title}} </h4>
+					<p>
+					<p>{{ bookmark.activity.description |striptags |slice(0, 50) ~ '...' }}</p> 
+
+					<p><a href="{{path('navigation_details_and_reservation',{slug: bookmark.activity.slug})}}"
+							class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+
+					<ul class="buttons">
+						<li><a href="{{path('navigation_bookmark_delete',{id: bookmark.id})}}"
+								class="btn_1 gray delete wishlist_close"><i class="fa fa-fw fa-times-circle-o"></i>
+								Delete</a></li>
+					</ul>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<!-- /box_general-->
+
+	{% block javascripts %}
+	<!--Jquery confirm -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+	{% endblock %}
+	{% endblock %}

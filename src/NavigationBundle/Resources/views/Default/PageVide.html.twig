@@ -1,0 +1,89 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+
+{% block title %}Page vide{% endblock %}
+{% block body %}
+{% if app.request.attributes.get('_route') not in  ['navigation_default_categoriesall' ] %}
+<main>
+	<div id="results">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4 col-10 ">
+					<h4><strong>{{activities|length}}</strong> result{% if activities|length > 1 %}s{% endif %}
+						for All listing</h4>
+				</div>
+				<div class="col-lg-9  col-md-8 col-2">
+					<a href="#0" class="search_mob btn_search_mobile"></a>
+					<form action="{{ path('navigation_suggestions')}}" method='get'>
+						<div class="row no-gutters custom-search-input-2 inner">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<input class="form-control" type="search" placeholder='What are you looking for...'
+										name='q'>
+									<i class="icon_search"></i>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<select class=" nice-select wide form-control" name="t">
+										{% for city in city %}
+										<option> {{city}} </option>
+										{% endfor %}
+									</select>
+									<i class="fas fa-angle-down"></i>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="form-group">
+									<select class="nice-select wide form-control" name="c">
+										{% for cat in category %}
+										<option> {{cat}} </option>
+										{% endfor %}
+									</select>
+									<i class="fas fa-angle-down"></i>
+								</div>
+							</div>
+							<div class="col-lg-1">
+								<input type="submit" value="Search">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- /row -->
+			<div class="search_mob_wp" style="display:none;">
+				<div class="custom-search-input-2">
+					<form action="{{ path('navigation_suggestions')}}" method='get'>
+						<div class="form-group">
+							<input class="form-control" type="search" placeholder='What are you looking for...'
+								name='q'>
+							<i class="icon_search"></i>
+						</div>
+						<div class="form-group">
+							<select class=" nice-select wide form-control" name="t">
+								{% for city in city %}
+								<option> {{city}} </option>
+								{% endfor %}
+							</select>
+						</div>
+						<select class="nice-select wide form-control" name="c">
+							{% for cat in category %}
+							<option> {{cat}} </option>
+							{% endfor %}
+						</select>
+
+						<input type="submit" value="Search">
+				</div>
+			</div>
+			<!-- /search_mobile -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /results -->
+
+
+	{% endif %}
+
+	{% block Content %}{% endblock %}
+
+	{% include footer %}
+	{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}My bookings{% endblock %}
+{% block VariableContent %}
+	<div class="container-fluid">
+		<!-- Breadcrumbs-->
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+			</li>
+			<li class="breadcrumb-item active">Bookings</li>
+		</ol>
+		<center>
+			{% for flashMessage in app.session.flashbag.get('error') %}
+			<div class="alert alert-danger" role="alert" style="width: 100%  ; text-align: center">{{flashMessage}}
+			</div>
+			{% endfor %}
+			{% for flashMessage in app.session.flashbag.get('success') %}
+			<div class="alert alert-success" role="alert" style="width: 100% ; text-align: center">{{flashMessage}}
+			</div>
+			{% endfor %}
+		</center>
+		
+		<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">Bookings</h2>
+				<div class="switch-field">
+                <input type="radio" name="q" value="any status">
+                <a href="{{ path('navigation_bookings')}}?q=Any status"> <label for="any status">Any status</label></a>
+                <input type="radio" name="q" value="checked">
+                <a href="{{ path('navigation_bookings')}}?q=checked"> <label for="checked">Checked</label></a>
+                <input type="radio" name="q" value="payed">
+                <a href="{{ path('navigation_bookings')}}?q=payed"> <label for="payed">Payed</label> </a>
+                <input type="radio" name="q" value="unchecked">
+                <a href="{{ path('navigation_bookings')}}?q=unchecked"> <label for="unchecked">Unchecked</label> </a>
+            </div> <br>
+			 <span class="d-inline-block"> {{tab|length}} unchecked </span>
+			</div>
+			<div class="list_general">
+				<ul>
+					{% for reservation in reservation %}
+					<li class="remove">
+						<figure>
+							{% for image in reservation.activity.image %}
+							<img src="{{asset(image.path)}}">
+							{% endfor %}
+						</figure>
+
+						<h4>{{reservation.activity.title}}
+
+							{% if reservation.status == "unchecked" %}
+							<i class="pending">{{reservation.status}} </i></h4>
+						{% else %}
+						<i class="approved">{{reservation.status}} </i></h4>
+						{% endif %}
+
+						<ul class="booking_list">
+							<li><strong>Reservation date</strong>{{reservation.date | date('Y-m-d')}}</li>
+							<li><strong>Booking details</strong> {{reservation.nbParticipants}} </li>
+							<li><strong>Client</strong> {{reservation.user}}</li>
+						</ul>
+
+						<p><a href="{{path('navigation_details_and_reservation',{slug: reservation.activity.slug})}}"
+							class="btn_1 gray"><i class="fa fa-fw fa-eye"></i> View item</a></p>
+
+						{% if reservation.status == "unchecked" %}
+
+						<ul class="buttons">
+							{% if is_granted('ROLE_ADMIN') %}
+							<li> <a href="{{path('dash_reservation_approuve',{id: reservation.id})}}" id="btn"
+									class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> Approuve</a>
+
+							{% endif %}
+
+							<li> <a href="{{path('navigation_delete_bookings',{id: reservation.id})}}"
+									class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Delete</a>
+							</li>
+						</ul>
+						{% endif %}
+
+						<ul class="buttons">
+							{% if  reservation.status == "checked"  %}
+							{% if is_granted('ROLE_CLIENT') %}
+							<li> <a href="{{path('navigation_checkout',{id: reservation.id})}}" id="btn"
+									class="btn_1 primary approve"><i class="fa fa-fw fa-check-circle-o"></i> Pay</a>
+							</li>
+
+							<li> <a href="{{path('navigation_delete_bookings',{id: reservation.id})}}"
+									class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Cancel</a>
+							</li>
+							{% endif %}
+
+						{% endif %}
+						</ul>
+						{% endfor %}
+
+			</div>
+		</div>
+		<!-- /box_general-->
+
+	</div>
+<div class="navigation pagination justify-content-end">
+        {{ knp_pagination_render(reservation) }}
+    </div>
+	{% endblock %}

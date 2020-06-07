@@ -1,0 +1,24 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}My Inbox{% endblock %}
+{% block VariableContent %}
+
+<body>
+ <div class="container-fluid">
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+				<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+		</li>
+		<li class="breadcrumb-item active">Inbox</li>
+	</ol>
+	<div class="box_general">
+			<div class="header_box">
+				<h2 class="d-inline-block">All messages</h2>
+			</div>
+                <div class="list_general">
+{% block fos_message_content %}
+
+{% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
+
+{% endblock %}
+{% endblock %}

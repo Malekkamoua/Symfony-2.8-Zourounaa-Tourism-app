@@ -1,0 +1,32 @@
+{% extends "UserBundle:Default:base.html.twig" %}
+{% block title %} Change password{% endblock %}
+
+
+{% block body %}
+
+<body id="login_bg">
+    <nav id="menu" class="fake_menu"></nav>
+
+    <div id="login">
+        <aside>
+            <figure>
+                <a href="{{ path('navigation_home')}}"><img src="{{asset("bundles/admin/img/logo.png")}}" width="350"
+                        height="150" alt="" class="logo_sticky logo"></a>
+            </figure>
+
+        <div style="margin-top:15%">
+            {% trans_default_domain 'FOSUserBundle' %}
+
+            {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+            {{ form_widget(form) }} <br>
+            <div>
+                <input type="submit" class="btn btn-warning" value="{{ 'resetting.reset.submit'|trans }}" />
+            </div>
+            {{ form_end(form) }}
+
+            <div class="copy">© 2019 {{website_name}}</div>
+        </div>
+        </aside>
+
+    </div>
+    {% endblock %}

@@ -1,0 +1,115 @@
+@font-face {
+  font-family: 'fontello';
+  src: url('../../bundles/user/css/font/fontello.eot?15595811');
+  src: url('../../bundles/user/css/font/fontello.eot?15595811#iefix') format('embedded-opentype'),
+       url('../../bundles/user/css/font/fontello.woff2?15595811') format('woff2'),
+       url('../../bundles/user/css/font/fontello.woff?15595811') format('woff'),
+       url('../../bundles/user/css/font/fontello.ttf?15595811') format('truetype'),
+       url('../../bundles/user/css/font/fontello.svg?15595811#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?15595811#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-Bookmark-empty:before { content: '\e800'; } /* '' */
+.icon-Bookmark:before { content: '\e801'; } /* '' */
+.icon-Cancel:before { content: '\e802'; } /* '' */
+.icon-Delete:before { content: '\e803'; } /* '' */
+.icon-View:before { content: '\e804'; } /* '' */
+.icon-Edit:before { content: '\e805'; } /* '' */
+.icon-Phone-call:before { content: '\e806'; } /* '' */
+.icon-Website:before { content: '\e807'; } /* '' */
+.icon-Youtube:before { content: '\e808'; } /* '' */
+.icon-City:before { content: '\e809'; } /* '' */
+.icon-Clock:before { content: '\e80a'; } /* '' */
+.icon-Email:before { content: '\e80b'; } /* '' */
+.icon-Info:before { content: '\e80c'; } /* '' */
+.icon-Hourglass:before { content: '\e80d'; } /* '' */
+.icon-Language:before { content: '\e80e'; } /* '' */
+.icon-Facebook:before { content: '\e80f'; } /* '' */
+.icon-Calendar:before { content: '\e810'; } /* '' */
+.icon-File:before { content: '\e811'; } /* '' */
+.icon-Location:before { content: '\e812'; } /* '' */
+.icon-Beauty-salon:before { content: '\e813'; } /* '' */
+.icon-Free-wifi:before { content: '\e814'; } /* '' */
+.icon-Handicapped-friendly-room:before { content: '\e815'; } /* '' */
+.icon-Meeting-room:before { content: '\e816'; } /* '' */
+.icon-No-smoking:before { content: '\e817'; } /* '' */
+.icon-Pets-allowed:before { content: '\e818'; } /* '' */
+.icon-Airport-pickup-service:before { content: '\e819'; } /* '' */
+.icon-Free-parking:before { content: '\e81a'; } /* '' */
+.icon-Terrace:before { content: '\e81b'; } /* '' */
+.icon-Spa:before { content: '\e81c'; } /* '' */
+.icon-Sport:before { content: '\e81d'; } /* '' */
+.icon-Babysitting:before { content: '\e81e'; } /* '' */
+.icon-Bar:before { content: '\e81f'; } /* '' */
+.icon-Tunisian-dinar:before { content: '\e820'; } /* '' */
+.icon-Museums &amp; Historical monuments:before { content: '\e821'; } /* '' */
+.icon-Messages:before { content: '\e822'; } /* '' */
+.icon-Mosques &amp; Cathedrals:before { content: '\e823'; } /* '' */
+.icon-My-profile:before { content: '\e824'; } /* '' */
+.icon-Parks:before { content: '\e825'; } /* '' */
+.icon-Restaurants:before { content: '\e826'; } /* '' */
+.icon-Reviews:before { content: '\e827'; } /* '' */
+.icon-Elevator:before { content: '\e828'; } /* '' */
+.icon-Laundry-service:before { content: '\e829'; } /* '' */
+.icon-Search:before { content: '\e82a'; } /* '' */
+.icon-Add:before { content: '\e82b'; } /* '' */
+.icon-Activities:before { content: '\e82c'; } /* '' */
+.icon-Bookings:before { content: '\e82d'; } /* '' */
+.icon-Shops:before { content: '\e82e'; } /* '' */
+.icon-Theaters:before { content: '\e82f'; } /* '' */
+.icon-Bookmarks:before { content: '\e830'; } /* '' */
+.icon-Users-table:before { content: '\e831'; } /* '' */
+.icon-Cafes:before { content: '\e832'; } /* '' */
+.icon-Chachia:before { content: '\e833'; } /* '' */
+.icon-Chart-bar:before { content: '\e834'; } /* '' */
+.icon-Cinemas:before { content: '\e835'; } /* '' */
+.icon-Dashboard:before { content: '\e836'; } /* '' */
+.icon-Logout:before { content: '\e837'; } /* '' */
+.icon-Hotels:before { content: '\e838'; } /* '' */
+.icon-Home:before { content: '\e839'; } /* '' */

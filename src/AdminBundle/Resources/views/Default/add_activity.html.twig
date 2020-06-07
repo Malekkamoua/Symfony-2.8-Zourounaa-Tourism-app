@@ -1,0 +1,557 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}{% if editMode %} Edit activity
+{% else %}Add activity {% endif %} {% endblock %}
+{% block VariableContent %}
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ path('dashboard')}}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">{% if editMode %} Edit activity
+            {% else %}Add activity {% endif %}</li>
+    </ol>
+    <div class="box_general">
+        <div class="header_box">
+            <h2 class="d-inline-block">{% if editMode %} Edit activity
+                {% else %}Add activity {% endif %}</h2>
+        </div>
+        <div class="list_general">
+            {{ form_start(form,{'attr':{'class': 'validate'}})}}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.title) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div class="styled-select">
+                            {{ form_widget(form.category) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Language</label>
+                        {{ form_widget(form.language) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Maximum of people</label>
+                        {{ form_widget(form.max) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.description|raw) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.usefulinformation) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.phone) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.email) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.website) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.facebookLink) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {% if editMode %}
+                        <ul>
+                            {% for image in activity.image %}
+                            <li id="{{image.id}}" class="photo">
+                                <div class="title">
+                                    <img src="{{asset(image.path)}}" width='100px' height='100px'>
+                                </div>
+                                <div class="delete">
+                                    <button type="button" data-delete-img="{{path('delete_image',{id: image.id})}}"
+                                        class="btn btn-danger btn-delete-image">
+                                        <i class="demo-icon icon-Delete" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {{ form_row(form.Image) }}
+                        <a href="#" id="add_images" class="btn_1 medium">Add images</a><br /><br />
+
+                        {% else %}
+                        {{ form_row(form.Image) }}
+                        <a href="#" id="add_images" class="btn_1 medium">Add images</a><br /><br />
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.video) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box_general padding_bottom">
+            <div class="header_box version_2">
+                <h2><i class="demo-icon icon-Location"></i> Location</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label> City</label>
+                        <div class="styled-select">
+                            {{ form_widget(form.city) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.address) }}
+                    </div>
+                </div>
+            </div>
+            <fieldset class="gllpLatlonPicker ">
+                <div class="gllpMap">Google Maps </div>
+                {{ form_row(form.latitude) }}
+                {{ form_row(form.longitude) }}
+                {{ form_row(form.zoom) }}
+            </fieldset>
+        </div>{# Location box  #}
+        <div class="box_general padding_bottom">
+            <div class="header_box version_2">
+                <h2><i class="demo-icon icon-Calendar"></i>Schedule</h2>
+            </div>
+            <div class="form-group">
+                <label>Availibility</label> </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> MONDAY :</label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedMonday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.mondayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.mondayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> TUESDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedTuesday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.tuesdayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.tuesdayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> WEDNESDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedWednesday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.wednesdayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.wednesdayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> THURSDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedThursday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.thursdayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.thursdayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> FRIDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedFriday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.fridayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.fridayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label>SATURDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedSaturday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.saturdayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.saturdayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="day">
+                <div class="row">
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            <label> SUNDAY : </label>
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="form-group">
+                            {{ form_widget(form.availability.closedSunday) }}
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <div class="opening">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.sundayOpening) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="closing">
+                            <div class="form-group">
+                                <div class="styled-select">
+                                    {{ form_widget(form.availability.sundayClosing) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.activityDuration) }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box_general padding_bottom" id="price">
+            <div class="header_box version_2">
+                <h2><i class="demo-icon icon-tunisian-dinar"></i>Pricing</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_row(form.price) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn_1 medium">Save</button>
+        {{ form_end(form)}}
+    </div>
+</div>
+
+<style>
+    *,
+    html,
+    body {
+        box-sizing: border-box;
+    }
+
+    .gallery-wrapper {
+        margin: 10px;
+        padding: 20px;
+        border: 1px #ccc solid;
+        border-radius: 4px;
+        background: #eee;
+        width: 100%;
+        max-width: 460px;
+    }
+
+    .gallery-wrapper h3 {
+        margin: 0;
+        padding-bottom: 8px;
+    }
+
+    ul li div.title {
+        margin: 0;
+        padding-left: 20px;
+        position: relative;
+        width: 360px;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    ul li div.delete {
+        display: table-cell;
+        vertical-align: middle;
+        width: 40px;
+    }
+
+    ul li.gallery-title {
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    #delete-gallery {
+        margin-top: 20px;
+    }
+
+    .gllpMap {
+        height: 400px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyD9vrkLJKSv1SFSa-_ojqx3s8Q-uHM4U5Q"></script>
+{% block javascripts %}
+<!-- google maps -->
+<script src="{{asset ("bundles/admin/js/jquery-gmaps-latlon-picker.js")}}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{{asset ("bundles/admin/js/admin.js")}}"></script>
+<!-- WYSIWYG Editor -->
+<script src="{{asset ("bundles/admin/js/editor/summernote-bs4.min.js")}}"></script>
+{% endblock %}
+<script>
+    $('.editor').summernote({
+        fontSizes: ['10', '14'],
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['ul', 'ol', 'paragraph']]
+        ],
+        placeholder: 'Write here ....',
+        tabsize: 2,
+        height: 200
+    });
+</script>
+<script>
+    $(function () {
+        $('selectpicker').selectpicker();
+    });
+</script>
+<script>
+    $(".closed > input").each(function () {
+
+        $(this).on('change', function () {
+
+
+            if ($(this).is(":checked")) {
+                $(this).closest(".day").find(".styled-select > select").attr("disabled", true);
+                $(this).closest(".day").find(".opening > select").val("");
+                $(this).closest(".day").find(".styled-select > select").attr("disabled", true);
+                $(this).closest(".day").find(".closing > select").val("");
+            } else {
+                $(this).closest(".day").find(".styled-select > select").attr("disabled", false);
+                $(this).closest(".day").find(".opening > select").val("");
+                $(this).closest(".day").find(".styled-select > select").attr("disabled", false);
+                $(this).closest(".day").find(".closing > select").val("");
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var $container = $('#appbundle_activity_Image');
+
+        function add_images() {
+            index = $container.children().length;
+            $container.append($($container.attr('data-prototype').replace(/__name__/g, index)));
+            $container.append($('<a href="#" id="delete_image_' + index +
+                '" class="btn btn-danger">Delete the image </a><br /><br />'));
+            $('#delete_image_' + index).click(function () {
+                $(this).prev().remove();
+                $(this).remove();
+                return false;
+            });
+        }
+        if ($container.children().length == 0) {
+            add_images();
+        }
+        $('#add_images').click(function () {
+            add_images();
+            return false;
+        });
+
+        $('#appbundle_activity_Image').html('');
+
+    });
+</script>
+<script>
+    $('.btn-delete-image').on('click', function (e) {
+        id = $(this).closest(".photo").attr("id");
+      
+            $.ajax({
+                url: $(this).attr('data-delete-img')
+            }).done(function (data) {
+                if (typeof data.message !== 'undefined') {
+                    console.log(data);
+                    $("#" + id).fadeOut(1000, function () {
+                        this.remove();
+                    })
+                    e.preventDefault();
+                    return false;
+                }
+            });
+    });
+</script>
+{% endblock %}
+

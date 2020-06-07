@@ -1,0 +1,76 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+
+{% block VariableContent %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">My profile</li>
+    </ol>
+    <div class="box_general padding_bottom">
+        <div class="header_box version_2">
+            <h2><i class="demo-icon icon-My-profile"></i>Profile details</h2>
+        </div>
+        {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Username</label>
+                    {{ form_widget(form.username,{'label':'Username','attr':{'placeholder':'Mot de passe','class':'form-control'}})
+                    }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Email</label>
+                    {{ form_widget(form.email,{'label':'Email','attr':{'placeholder':'email','class':'form-control'}})
+                    }}
+
+                </div>
+            </div>
+        </div>
+        <!-- /row-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Last name</label>
+                    {{ form_widget(form.last_name,{'label':'Last name','attr':{'placeholder':'last_name','class':'form-control'}})
+                    }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Name</label>
+                    {{ form_widget(form.name,{'label':'Name','attr':{'placeholder':'name','class':'form-control'}})
+                    }}
+                </div>
+            </div>
+        </div>
+        <!-- /row-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Phone number</label>
+                    {{ form_widget(form.phone,{'label':'Phone number','attr':{'placeholder':'phone','class':'form-control'}})
+                    }}
+                </div>
+            </div>
+        </div>
+        <!-- /row-->
+        {{ form_widget(form.current_password,{'label':'Mot de passe','attr':{'placeholder':'current_password','class':'form-control'}})
+        }}
+        <br>
+        <div>
+            <input type="submit" class="btn btn-warning" value="{{ 'profile.edit.submit'|trans }}" />
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+</div>
+<!-- /box_general-->
+{% endblock %}
+{% block javascripts %}
+{% javascripts %} {{ parent() }} {% endjavascripts %}
+{% endblock %}

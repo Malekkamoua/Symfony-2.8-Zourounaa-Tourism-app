@@ -1,0 +1,177 @@
+{% extends "AdminBundle:Default:base.html.twig" %}
+{% block content %}
+<html>
+
+<head>
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{asset ("bundles/admin/css/admin.css")}}">
+  <link rel="stylesheet" href="{{asset ("bundles/admin/css/custom.css")}}">
+  <link href="{{asset ("bundles/admin/css/fontello/fontello.css")}}" rel="stylesheet">
+  <link href="{{asset ("bundles/admin/css/fontello/fontello-codes.css")}}" rel="stylesheet">
+  <link href="{{asset ("bundles/admin/css/fontello/fontello-embedded.css")}}" rel="stylesheet">
+  <link href="{{asset ("bundles/admin/css/fontello/fontello-ie7.css")}}" rel="stylesheet">
+  <link href="{{asset ("bundles/admin/css/fontello/fontello-ie7-codes.css")}}" rel="stylesheet">
+  {% endblock %}
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
+    <a class="navbar-brand" href="{{path('navigation_home')}}"><img src="{{asset("img/logofinaalblanc1.png")}}"
+        data-retina="true" alt="" width="165" height="36"></a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+          <a class="nav-link" href="{{ path('dashboard')}}">
+            <i class="demo-icon icon-Dashboard"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_CLIENT') %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+          <a class="nav-link" href="{{ path('navigation_plan')}}">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="nav-link-text">My plan</span>
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
+          <a class="nav-link" href="{{ path('fos_message_inbox')}}">
+            <i class="demo-icon icon-Messages"></i>
+            <span class="nav-link-text">Messages</span>
+          </a>
+        </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="My listings">
+          <a class="nav-link" href="{{path('activities')}}">
+            <i class="demo-icon icon-Activities"></i>
+            <span class="nav-link-text"> Activities </span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
+          <a class="nav-link" href="{{path('dash_activity_add')}}">
+            <i class="demo-icon icon-Add"></i>
+            <span class="nav-link-text">Add Activity</span>
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
+          {% if is_granted('ROLE_ADMIN') %}
+          <a class="nav-link" href="{{path('admin_bookings')}}">
+            {% else %}
+            <a class="nav-link" href="{{path('navigation_bookings')}}">
+              {% endif %}
+              <i class="demo-icon icon-Bookings"></i>
+              <span class="nav-link-text">Bookings</span>
+            </a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+          <a class="nav-link" href="{{ path('admin_reviews') }}">
+            <i class="demo-icon icon-Reviews"></i>
+            <span class="nav-link-text">Reviews</span>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+          <a class="nav-link" href="{{ path('navigation_reviews') }}">
+            <i class="demo-icon icon-Reviews"></i>
+            <span class="nav-link-text">Reviews</span>
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
+          {% if is_granted('ROLE_ADMIN') %}
+          <a class="nav-link" href="{{ path('admin_bookmarks') }}">
+            {% else %}
+            <a class="nav-link" href="{{ path('navigation_bookmarks') }}">
+              {% endif %}
+              <i class="demo-icon icon-Bookmarks"></i>
+              <span class="nav-link-text">Bookmarks</span>
+            </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+          <a class="nav-link" href="{{ path('fos_user_profile_edit')}}">
+            <i class="demo-icon icon-My-profile"></i>
+            <span class="nav-link-text">My Profile</span>
+          </a>
+        </li>
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+          <a class="nav-link" href="{{ path('fos_user_change_password')}}">
+            <i class="fas fa-unlock-alt"></i>
+            <span class="nav-link-text">Change Password</span>
+          </a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users table">
+          <a class="nav-link" href="{{ path('users') }}">
+            <i class="demo-icon icon-Users-table"></i>
+            <span class="nav-link-text">Users Table</span>
+          </a>
+        </li>
+        {% endif %}
+
+      </ul>
+
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          {% if app.request.attributes.get('_route') in ['activities']%}
+          <form class="form-inline my-2 my-lg-0 mr-lg-2" action="{{ path('activities')}}" method='get'>
+            <div class="form-group">
+              <input class="form-control search-top" type="search" placeholder="Search for..." name="q">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                  <i class="demo-icon icon-Search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+            <i class="demo-icon icon-Logout"></i>Logout</a>
+
+        </li>
+      </ul>
+    </div>
+  </nav>
+  </div>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <!-- Icon Cards-->
+      {% block VariableContent %}
+
+      {% endblock %}
+
+      <!-- /.container-fluid-->
+    </div>
+
+    <!-- footer -->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+
+        </div>
+      </div>
+    </footer>
+
+</body>
+
+</html>
+{% endblock %}

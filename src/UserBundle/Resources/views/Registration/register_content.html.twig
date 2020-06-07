@@ -1,0 +1,59 @@
+{% extends "UserBundle:Default:base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+
+<body id="login_bg">
+	<nav id="menu" class="fake_menu"></nav>
+
+	<div id="login">
+		<aside>
+		
+			<figure>
+				<a href="{{ path('navigation_home')}}"><img src="{{asset("img/logofinal.png")}}" width="350" height="150" alt=""
+						class="logo_sticky logo"></a>
+			</figure> 
+
+			<div class="form">
+
+				{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register validate'}})
+				}}
+				<br>
+
+				{{ form_widget(form.email,{'label':'Adresse e-mail',
+					'attr':{'placeholder':'Email address','class':'form-control'}}) }}
+				{{ form_errors(form.email) }}
+				<br>
+
+				{{ form_widget(form.username,{'label':'Nom d\'utilisateur',
+					'attr':{'placeholder':'Username','class':'form-control','minlength':'3','maxlength':'20'}}) }}
+				<br>
+
+				{{ form_widget(form.plainPassword.first,{'label':'Password','attr':{'placeholder':'Password','class':'form-control'}})
+				}} <br>
+				{{form_errors(form.plainPassword.first)}}
+
+				{{ form_widget(form.plainPassword.second,{'label':'Repeat password','attr':{'placeholder':'Repeat password','class':'form-control'}})
+				}}
+				{{form_errors(form.plainPassword.second)}}
+
+				<input type="submit" class="btn_1 rounded full-width add_top_30"
+					value="{{ 'registration.submit'|trans }}" />
+
+				{{ form_end(form) }}
+
+				<div class="text-center add_top_10">Already have an acccount?
+					<strong> <a href="{{ path('fos_user_security_login')}}"> Sign In</a></strong>
+				</div>
+
+				<div class="copy">© 2019 {{website_name}}</div>
+
+		</aside>
+
+	</div>
+</body>
+
+{% endblock %}
+{% block javascripts %}{% endblock %}

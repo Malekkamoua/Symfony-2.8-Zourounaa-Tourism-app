@@ -1,0 +1,85 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+
+{% block title%}Checkout{% endblock %}
+{% block body %}
+
+<div class="sub_header_in">
+	<div class="container">
+		<h1>Chekout - Booking</h1>
+	</div>
+	<!-- /container -->
+</div>
+<!-- /sub_header -->
+
+<main>
+	<div class="container margin_60">
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<div class="step middle">
+					<h3>1. Payment Method</h3>
+					<div class="payments">
+						<ul>
+							<li>
+								<label class="container_radio">Credit Card<a href="#0" class="info"></a>
+									<input type="radio" name="payment" checked>
+									<span class="checkmark"></span>
+								</label>
+							</li>
+							<li>
+								<label class="container_radio">Paypal<a href="#0" class="info"></a>
+									<input type="radio" name="payment">
+									<span class="checkmark"></span>
+								</label>
+							</li>
+						</ul>
+					</div>
+					<div class="payment_info d-none d-sm-block">
+						<figure><img src="img/cards_all.svg" alt=""></figure>
+						<p>A 0% balance transfer credit card allows you to move an existing debt from one credit card
+							provider to another. You can use this to manage existing debt, or consolidate several credit
+							card repayments into one manageable monthly repayment.
+
+							It’s a handy way to avoid paying interest on a debt if you’re currently paying interest, or
+							your interest-free period is coming to an end.
+
+							There are some deals that will give you an interest-free period of more than three years.
+							But be aware that you may have to pay a fee to transfer the balance, and you must always
+							make at least the minimum repayment.</p>
+					</div>
+				</div>
+				<!-- /step -->
+			</div>
+			<div class="col-lg-8 col-md-6">
+				<div class="step last">
+					<h3>2. Order Summary</h3>
+					<div class="box_general summary">
+						<ul>
+							<li>Where <span class="float-right">{{reservation.activity.title}} </span></li>
+							<li>Date <span class="float-right">{{reservation.date}}</span></li>
+							<li>Hour <span class="float-right">{{reservation.time}}</span></li>
+							<li>Guest <span class="float-right">{{reservation.nbParticipants}}</span></li>
+							<li>TOTAL COST <span class="float-right">{{reservation.totalPrice}} TND</span></li>
+						</ul>
+						<div class="form-group">
+							<label class="container_check">Please accepts <a target="_blank" href="#0">Terms and
+									conditions</a>.
+								<input type="checkbox" checked>
+								<span class="checkmark"></span>
+							</label>
+						</div>
+
+						<a href="{{path('navigation_pay_booking',{id: reservation.id})}}"
+							class="btn_1 full-width cart">CONFIRM AND PAY</a>
+					</div>
+					<!-- /box_general -->
+				</div>
+				<!-- /step -->
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</main>
+<!--/main-->
+<div id="toTop"></div><!-- Back to top button -->
+{% endblock %}

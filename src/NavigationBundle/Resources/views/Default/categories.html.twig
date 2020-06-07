@@ -1,0 +1,48 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+
+{% block title %}All categories{% endblock %}
+{% block body %}
+
+<div class="sub_header_in">
+    <div class="container">
+        <h1>Categories</h1>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /sub_header -->
+
+<main>
+    <div class="container margin_60_35">
+        <div class="main_title_2">
+            <span><em></em></span>
+            <h2>All categories available </h2>
+            <p>Find you delight in our categories.</p>
+        </div>
+        <div class="grid-gallery">
+            <ul class="magnific-gallery">
+                {% for cat in categories %}
+                <li>
+                    <figure>
+				<img src="{{ asset('img/') ~ cat.image}}" height="100px" alt="">
+                        <figcaption>
+                            <div class="caption-content">
+                                <a href="img/gallery/large/pic_1.jpg" title="Photo title" data-effect="mfp-zoom-in">
+                                    <i class="pe-7s-albums"></i>
+                                    <p>{{cat.name}} </p>
+                                </a>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- /grid gallery -->
+    </div>
+    <!-- /container -->
+    </div>
+    <!-- /bg_color_1 -->
+</main>
+<!--/main-->
+<div id="toTop"></div><!-- Back to top button -->
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %} Activities {% endblock %}
+{% block VariableContent %}
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ path('dashboard')}}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Activities</li>
+    </ol>
+    <center>
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger" role="alert" style="width:100% ; text-align: center">{{flashMessage}} </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success" role="alert" style="width:100% ; text-align: center">{{flashMessage}} </div>
+        {% endfor %}
+    </center>
+    <div class="box_general">
+        <div class="header_box">
+            <h2 class="d-inline-block">Activities</h2>
+        </div>
+        <div class="list_general">
+            <ul>
+                {% for activity in activities %}
+                <li>
+                    <figure>
+                        {% for image in activity.image %}
+                        <img src="{{asset(image.path)}}">
+                        {% endfor %}
+                    </figure>
+                    <small>{{activity.category.name}}</small>
+                    <h4> {{activity.title}} </h4> <br>
+                    <p>{{ activity.description |striptags |slice(0, 50) ~ '...' }}</p> <br>
+                    <p>
+                        <a href="{{ path('dash_activity_details',{slug: activity.slug})}}" class="btn_1 gray"><i
+                                class="demo-icon icon-View"></i> View </a>
+                        <a href="{{path('dash_activity_edit',{slug: activity.slug})}}" class="btn_1 gray"><i
+                                class="demo-icon icon-Edit"></i> Edit </a>
+                    </p>
+                    <ul class="buttons">
+                        <li><a href="{{path('dash_activity_delete',{slug: activity.slug})}}"
+                                class="btn_1 gray delete"><i class="demo-icon icon-Delete"></i> Delete</a></li>
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="navigation pagination justify-content-end">
+        {{ knp_pagination_render(activities) }}
+    </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <link rel="shortcut icon" href={{ asset("bundles/admin/img/icon1.ico")}} type="image/x-icon">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.5/nouislider.css" />
+
+</head>
+<link rel="shortcut icon" href="{{asset ("bundles/admin/img/icon1.ico")}}" type="image/x-icon" />
+
+<title>{% block title %}{% endblock %} | Zourouna</title>
+
+{% block stylesheets %}
+
+{% stylesheets  'bundles/navigation/css/vendors.css'
+                     
+	        filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+<link href="{{asset ("bundles/navigation/css/style.css")}}" rel="stylesheet">
+<link href="{{asset ("bundles/navigation/css/bootstrap.min.css")}}" rel="stylesheet">
+
+<link href="{{asset ("bundles/admin/css/fontello/fontello.css")}}" rel="stylesheet">
+<link href="{{asset ("bundles/admin/css/fontello/fontello-codes.css")}}" rel="stylesheet">
+<link href="{{asset ("bundles/admin/css/fontello/fontello-embedded.css")}}" rel="stylesheet">
+<link href="{{asset ("bundles/admin/css/fontello/fontello-ie7.css")}}" rel="stylesheet">
+<link href="{{asset ("bundles/admin/css/fontello/fontello-ie7-codes.css")}}" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+{% endstylesheets %}
+
+{% endblock %}
+    
+</head>
+
+<body>
+    {% if app.request.attributes.get('_route') not in  ['navigation_home','navigation_suggestions','navigation_bookmarks','fos_message_inbox','navigation_bookings','fos_user_change_password','fos_user_resetting_request','fos_user_resetting_reset','fos_user_security_login','fos_user_registration_register','fos_user_profile_edit'] %}
+    {{ render(controller('NavigationBundle:Default:Header')) }}
+    {% endif %}
+
+
+    {% block body %}{% endblock %}
+    {% if app.request.attributes.get('_route') not in  ['navigation_bookmarks','fos_user_resetting_reset','fos_message_inbox','navigation_bookings','fos_user_change_password','fos_user_resetting_request','fos_user_security_login','fos_user_registration_register','fos_user_profile_edit'] %}
+    {{ render(controller('NavigationBundle:Default:Footer')) }}
+    {% endif %}
+
+    {% javascripts
+    '@NavigationBundle/Resources/public/js/*' %}
+    <script src="{{ asset_url }}"></script>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    
+    <!--Jquery confirm -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+        {% endjavascripts %}
+     <style>
+        .validate .error {
+            color: red;
+        }
+
+        .validate ul {
+            color: red;
+        }
+    </style>
+
+ <script>
+        $(document).ready(function () {
+            $("form.validate").validate({
+                rules: {
+                    fos_user_registration_form_plainPassword_first: "required",
+                    fos_user_registration_form_plainPassword_second: {
+                        equalTo: "#fos_user_registration_form_plainPassword_first"
+                    }
+                },
+                messages: {},
+                highlight: function (element) {
+                    $(element).parent().addClass('error')
+                },
+                unhighlight: function (element) {
+                    $(element).parent().removeClass('error')
+                }
+            });
+        })
+    </script> 
+
+
+</body>
+
+</html>

@@ -1,0 +1,440 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+{% block title %} Suggestions {% endblock %}
+{% block body %}
+<style>
+	center {
+		position: absolute;
+		margin: 25% 25% 25% 50%;
+		color: #004DDA;
+
+	}
+
+	@media (max-width: 500px) {
+		center {
+			position: absolute;
+			margin: 0% 45% 50% 35%;
+		}
+	}
+</style>
+<div id="page" class="theia-exception">
+
+	<header class="header_in is_sticky">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-12">
+					<div id="logo">
+						<a href="{{ path('navigation_home')}}">
+							<img src="{{asset("img/logofinal1.png")}}" width="165" height="35" alt="">
+					</div>
+				</div>
+				<div class="col-lg-9 col-12">
+					<ul id="top_menu">
+
+						{% if is_granted('ROLE_ADMIN') %}
+						<li><a href="{{ path('dash_activity_add')}}" class="btn_add">Add activity</a></li>
+						{% else %}
+						<li><a href="{{ path('navigation_plan')}}" class="btn_add">My plan</a></li>
+						{% endif %}
+
+						{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+						<li><a href="{{ path('fos_user_security_logout')}}" class="login" title="Logout">Logout</a></li>
+						{% else %}
+						<li><a href="{{ path('fos_user_security_login')}}" class="login" title="Sign In">Sign In</a>
+						</li>
+						{% endif %}
+						{% if is_granted('ROLE_CLIENT') %}
+						<li><a href="{{ path('navigation_bookmarks')}}" class="wishlist_bt_top"
+								title="Your wishlist">Your wishlist</a>
+						</li>
+						{% endif %}
+					</ul>
+					<!-- /top_menu -->
+					<a href="#menu" class="btn_mobile">
+						<div class="hamburger hamburger--spin" id="hamburger">
+							<div class="hamburger-box">
+								<div class="hamburger-inner"></div>
+							</div>
+						</div>
+					</a>
+					<nav id="menu" class="main-menu">
+						<ul>
+							<li><span><a href="{{ path('navigation_home')}}">Home</a></span></li>
+							<li><span><a href="{{ path('navigation_suggestions')}}">Browse</a><span></li>
+							{% for category in category|slice(0,4) %}
+							<li><span><a
+										href="{{ path('navigation_suggestions')}}?c={{category.slug}}">{{category.name}}</a></span>
+							</li>
+							{% endfor %}
+							{% if is_granted('ROLE_CLIENT') %}
+
+								<li><span><a href="{{ path('fos_user_profile_edit')}}" class="avatar"><i
+													class="demo-icon icon-My-profile"></i> <i class="fas fa-caret-down"></i></a></span>
+
+									<ul>
+										<li><a href="{{ path('fos_user_profile_edit')}}">
+												<b>{{app.user.username}}</b></a></li>
+										<li> <a href="{{ path('fos_message_inbox')}}"><i
+													class="fas fa-envelope-open"></i> Messages</a></li>
+										<li><a href="{{ path('navigation_bookings')}}"><i
+													class="fas fa-calendar-check"></i> Bookings</a></li>
+										<li><a href="{{ path('navigation_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+												Reviews</a>			
+										</li>			
+										<li><a href="{{ path('navigation_bookmarks')}}"><i class="fas fa-heart"></i>
+												Bookmarks</a></li>
+										
+									</ul>
+
+								</li>
+								{% endif %}
+								{% if is_granted('ROLE_ADMIN') %}
+								<li><span><a href="{{ path('fos_user_profile_edit')}}" class="avatar"><i
+													class="demo-icon icon-My-profile"></i> <i class="fas fa-caret-down"></i></a></span>
+
+									<ul>
+										<li><a href="{{ path('fos_user_profile_edit')}}">
+												<b>{{app.user.username}}</b></a></li>
+										<li> <a href="{{ path('dashboard')}}"> <i
+													class="demo-icon icon-Dashboard"></i>Dashboard</a>
+										</li>
+										<li> <a href="{{ path('fos_message_inbox')}}"> <i
+													class="demo-icon icon-Messages"></i> Messages</a>
+										</li>
+										<li><a href="{{ path('dash_activity_add')}}"><i class="demo-icon icon-Add"></i>
+												Add activity</a></li>
+										<li><a href="{{ path('activities')}}"><i class="demo-icon icon-Activities"></i>
+												Activities</a></li>		
+										<li><a href="{{ path('admin_bookings')}}"><i
+													class="demo-icon icon-Bookings"></i>
+												Bookings</a></li>
+												<li><a href="{{ path('admin_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+												Reviews</a>
+										</li>
+										<li><a href="{{ path('admin_bookmarks')}}"><i
+													class="demo-icon icon-Bookmarks"></i>
+												Bookmarks</a></li>
+										
+										
+										<li><a href="{{ path('users')}}"><i class="demo-icon icon-Users-table"></i>
+												Users table</a>
+										</li>
+									</ul>
+								</li>
+								{% endif %}
+
+
+					</nav>
+	</header>
+	<!-- /header -->
+
+	<main>
+		<div id="results">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-10">
+						<h4><strong>{{activities|length}}</strong> result{% if activities|length > 1 %}s{% endif %}
+							for All listing</h4>
+					</div>
+					<div class="col-lg-9 col-md-8 col-2">
+						<a href="#0" class="search_mob btn_search_mobile"></a> <!-- /open search panel -->
+						<form action="{{ path('navigation_suggestions')}}" method='get'>
+							<div class="row no-gutters custom-search-input-2 inner">
+								<div class="col-lg-4">
+									<div class="form-group">
+										<input class="form-control" type="text"
+											placeholder="What are you looking for..." name='q'>
+										<i class="icon_search"></i>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="form-group">
+										<select class=" nice-select wide form-control" name="t">
+											<option>All cities</option>
+											{% for city in city %}
+											<option> {{city}} </option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-3">
+									<div class="form-group">
+										<select class="nice-select wide form-control" name="c">
+											<option>All categories</option>
+											{% for cat in category %}
+											<option> {{cat.slug}} </option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-1">
+									<input type="submit" value="Search">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /row -->
+				<div class="search_mob_wp">
+					<div class="custom-search-input-2">
+						<form action="{{ path('navigation_suggestions')}}" method='get'>
+							<div class="form-group">
+								<input class="form-control" type="text" placeholder="What are you looking for..."
+									name='q'>
+								<i class="icon_search"></i>
+							</div>
+							<div class="form-group">
+								<select class=" nice-select wide form-control" name="t">
+									<option>All cities</option>
+									{% for city in city %}
+									<option> {{city}} </option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="nice-select wide form-control" name="c">
+									<option>All categories</option>
+									{% for cat in category %}
+									<option> {{cat.slug}} </option>
+									{% endfor %}
+								</select>
+							</div>
+							<input type="submit" value="Search">
+						</form>
+					</div>
+				</div>
+				<!-- /search_mobile -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /results -->
+
+		<div class="container margin_60_35">
+			<div class="row">
+				<aside class="col-lg-3" id="sidebar">
+					<div id="filters_col">
+						<a data-toggle="collapse" href="#collapseFilters" aria-expanded="false"
+							aria-controls="collapseFilters" id="filters_col_bt">Filters </a>
+						<div class="collapse show" id="collapseFilters">
+							<form action="{{ path('navigation_suggestions')}}" method='get'>
+								<div class="filter_type">
+									<h6>Category</h6>
+									<ul>
+										<li>
+											{% if app.request.get('c') is same as ('All categories') %}
+											<div class="form-check">
+												<label class="container_radio form-check-label"> All categories
+													<input class="form-check-input" type="radio" name="c"
+														id="exampleRadios" value='All categories' checked>
+													<span class="checkmark"></span>
+											</div> <br>
+											{% else %}
+											<div class="form-check">
+												<label class="container_radio form-check-label"> All categories
+													<input class="form-check-input" type="radio" name="c"
+														id="exampleRadios" value='All categories'>
+													<span class="checkmark"></span>
+											</div> <br>
+											{% endif %}
+											{% for cat in category %}
+											{% if app.request.get('c') is same as (cat.slug) %}
+											<div class="form-check">
+												<label class="container_radio form-check-label"> {{cat.name}}
+													<input class="form-check-input" type="radio" name="c"
+														id="exampleRadios" value='{{cat.slug}}' checked>
+													<span class="checkmark"></span>
+												</label>
+												{% else %}
+												<div class="form-check">
+													<label class="container_radio form-check-label"> {{cat.name}}
+														<input class="form-check-input" type="radio" name="c"
+															id="exampleRadios" value='{{cat.slug}}'>
+														<span class="checkmark"></span>
+													</label>
+													{% endif %}
+
+												</div> <br>
+												{% endfor %}
+										</li>
+									</ul>
+								</div>
+								<div class="filter_type">
+									<h6>Price</h6>
+									<div class="distance"> Search for activities where prices are between
+									
+										<span id="slider-snap-value-lower" name="pL"></span>
+										TND and <span id="slider-snap-value-upper" name="pU"></span>TND
+									</div>
+									<div id="slider-snap"></div>
+
+									<input id="pl" type="hidden" name="pL" />
+									<input id="pu" type="hidden" name="pU" />
+								</div>
+								<input type="submit" value="Filter" class="btn_1 rounded add_top_30">
+							</form>
+						</div>
+						<!--/collapse -->
+					</div>
+					<!--/filters col-->
+				</aside>
+				<!-- /aside -->
+				<div class="col-lg-9">
+					<div class="row">
+						{% if activities|length == 0 %}
+						<center>
+							No activity found.
+						</center>
+				        {% endif %}
+				{% for activity in activities  %}
+				<div class="col-md-6">
+					<div class="strip grid">
+						<figure>
+							{% if app.user == null %}
+							<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+								class="wish_bu" id="{{activity.slug}}"></a>
+							
+
+							{% elseif app.user == true and activity.isBookmarkedByUser(app.user) == false and is_granted('ROLE_CLIENT') %}
+							<a href="{{path('navigation_bookmarks_action',{slug: activity.slug})}}" class="wish_bt"
+								id="{{activity.slug}}">
+							</a>
+							{% elseif app.user == true and activity.isBookmarkedByUser(app.user) == true %}
+							<a href="{{path('navigation_bookmarks_action',{slug: activity.slug})}}"></a>
+							{% endif %}
+							<a href="{{path('navigation_details_and_reservation',{slug: activity.slug})}}">
+								{% for image in activity.image %}
+								<img src="{{asset(image.path)}}" class="img-fluid" alt="" width="400">
+								<div class="read_more">
+									<span>
+										Read more</span></div>
+								{% endfor %}
+							</a>
+							<small>{{activity.category.name}}</small>
+						</figure>
+						<div class="wrapper">
+							<h3><a
+									href="{{path('navigation_details_and_reservation',{slug: activity.slug})}}">{{activity.title}}</a>
+							</h3>
+							<small>{{ activity.address }}</small>
+							<p>{{ activity.description |striptags |slice(0, 50) ~ '...' }}</p>
+						</div>
+						<ul>
+							<li><span class="loc_open">{{ activity.price }} TND</span></li>
+							<li>
+								<div class="score"><span><em> {{activity.reviews|length}}
+											Review{% if activity.reviews|length > 1 %}s{% endif %}</em>
+									</span><strong>{{ activity.note }}/5</strong></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<!-- /row -->
+			<div class="pagination__wrapper add_bottom_30">
+				<ul class="pagination justify-content-center">
+					<li> {{ knp_pagination_render(activities) }}</li>
+				</ul>
+			</div>
+			<!-- /col -->
+		</div>
+</div>
+<!-- /container -->
+
+</main>
+<!--/main-->
+<div id="toTop"></div><!-- Back to top button -->
+{% block javascripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.5/nouislider.min.js"></script>
+<script src="https://unpkg.com/wnumb@1.1.0"></script>
+
+{% endblock %}
+
+<script>
+	var snapSlider = document.getElementById('slider-snap');
+	noUiSlider.create(snapSlider, {
+		start: [0, 1000],
+		connect: true,
+		step: 50,
+		range: {
+			'min': 0,
+			'max': 1000
+		}
+	});
+</script>
+<script>
+	var snapValues = [
+		document.getElementById('slider-snap-value-lower'),
+		document.getElementById('slider-snap-value-upper')
+	];
+	snapSlider.noUiSlider.on('update', function (values, handle) {
+		snapValues[handle].innerHTML = values[handle];
+		$('#pl').val(values[0]);
+		$('#pu').val(values[1]);
+	});
+
+	{% if app.request.get('pL') is not null and app.request.get('pU') %}
+
+		snapSlider.noUiSlider.set([{{app.request.get('pL')}}, {{app.request.get('pU')}}]);
+
+	{% endif %}
+
+</script>
+<script>
+	$("input[type='radio']").on('change', function () {
+		if ("c" == "this.value") {
+			s(this).attr("checked", true);
+		}
+	})
+</script>
+<script>
+	var snapValues = [
+		document.getElementById('slider-snap-value-lower'),
+		document.getElementById('slider-snap-value-upper')
+	];
+	snapSlider.noUiSlider.on('update', function (values, handle) {
+		snapValues[handle].innerHTML = values[handle];
+		$('#pl').val(values[0]);
+		$('#pu').val(values[1]);
+	});
+</script>
+
+<script>
+	$('.wish_bt').on('click', function () {
+		thisbutton = $(this);
+		$.ajax({
+			url: $(this).attr('href')
+		}).done(function (data) {
+			
+			thisbutton.remove();
+			if (typeof data.message !== 'undefined') {
+				var bookmarks = "{{path('navigation_bookmarks')}}"
+				id = $(".wish_bt").closest("a").attr("id");
+				console.log(id);
+				$.confirm({
+					title: data.message,
+					content: 'activity bookmarked',
+					type: 'blue',
+					typeAnimated: true,
+					buttons: {
+						tryAgain: {
+							text: 'See bookmarks',
+							btnClass: 'btn-sucess',
+							action: function () {
+								window.location.href = bookmarks;
+							}
+						},
+						close: function () {}
+					}
+				});
+
+			}
+		});
+	});
+</script>
+
+
+{% endblock %}

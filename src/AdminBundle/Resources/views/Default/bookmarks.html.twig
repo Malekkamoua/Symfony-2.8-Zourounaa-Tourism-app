@@ -1,0 +1,61 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %}bookmarks{% endblock %}
+{% block VariableContent %}
+<div class="container-fluid">
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('dashboard')}}">Dashboard</a>
+		</li>
+		<li class="breadcrumb-item active">Bookmarks</li>
+	</ol>
+	<center>
+		{% for flashMessage in app.session.flashbag.get('error') %}
+		<div class="alert alert-danger" role="alert" style="width: 100%  ; text-align: center">{{flashMessage}} </div>
+		{% endfor %}
+		{% for flashMessage in app.session.flashbag.get('success') %}
+		<div class="alert alert-success" role="alert" style="width: 100%  ; text-align: center">{{flashMessage}} </div>
+		{% endfor %}
+	</center>
+	<div class="box_general">
+		<div class="header_box">
+			<h2 class="d-inline-block">Bookmarks</h2>
+		</div>
+		<div class="list_general">
+			<ul>
+				{% for bookmark in bookmarks %}
+				<li id="{{bookmark.id}}">
+					<figure>
+						{% for image in bookmark.activity.image %}
+						<img src="{{asset(image.path)}}">
+						{% endfor %}</figure>
+					<small>{{bookmark.activity.category}} </small>
+					<h4>{{bookmark.activity.title}} </h4>
+					<small>Bookmarked by : {{bookmark.user}} </small> <br>
+					
+						<p>{{ bookmark.activity.description |striptags |slice(0, 50) ~ '...' }}</p> 
+					
+					<p><a href="{{path('dash_activity_details',{slug: bookmark.activity.slug})}}" class="btn_1 gray"><i
+								class="fa fa-fw fa-eye"></i> View item</a></p>
+					<ul class="buttons">
+						<li><a href="{{path('dash_bookmark_delete',{id: bookmark.id})}}" class="btn_1 gray delete wishlist_close"><i
+									class="fa fa-fw fa-times-circle-o"></i> Delete</a></li>
+					</ul>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<!-- /box_general-->
+	{% endblock %}
+
+	{% block javascripts %}
+	<script src="bundles/navigation/public/js/common_scripts.js"></script>
+	<script src="bundles/navigation/public/js/functions.js"></script>
+	<script src="bundles/navigation/public/js/input_qty.js"></script>
+	<script src="bundles/navigation/public/js/map_single_restaurant.js"></script>
+	<script src="bundles/navigation/public/assets/validate.js"></script>
+	<script src="bundles/navigation/public/js/animated_canvas_min.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+	{% endblock %}

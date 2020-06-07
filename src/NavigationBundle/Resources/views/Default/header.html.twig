@@ -1,0 +1,119 @@
+<div id="page">
+
+	<div id="page">
+
+		<header class="header_in is_sticky">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-12">
+						<div id="logo">
+							<a href="{{ path('navigation_home')}}">
+								<img src="{{asset("img/logofinal1.png")}}" width="165" height="35" alt="">
+						</div>
+					</div>
+					<div class="col-lg-9 col-12">
+						<ul id="top_menu">
+
+							{% if is_granted('ROLE_ADMIN') %}
+							<li><a href="{{ path('dash_activity_add')}}" class="btn_add">Add activity</a></li>
+							{% else %}
+							<li><a href="{{ path('navigation_plan')}}" class="btn_add">My plan</a></li>
+							{% endif %}
+
+							{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+							<li><a href="{{ path('fos_user_security_logout')}}" class="login" title="Logout">Logout</a>
+							</li>
+							{% else %}
+							<li><a href="{{ path('fos_user_security_login')}}" class="login" title="Sign In">Sign In</a>
+							</li>
+							{% endif %}
+							{% if is_granted('ROLE_ADMIN') %}
+							<li><a href="{{ path('admin_bookmarks')}}" class="wishlist_bt_top"
+									title="Your wishlist">Your wishlist</a>
+							</li>
+							{% else %}
+							<li><a href="{{ path('navigation_bookmarks')}}" class="wishlist_bt_top"
+									title="Your wishlist">Your wishlist</a>
+							</li>
+							{% endif %}
+						</ul>
+						<!-- /top_menu -->
+						<a href="#menu" class="btn_mobile">
+							<div class="hamburger hamburger--spin" id="hamburger">
+								<div class="hamburger-box">
+									<div class="hamburger-inner"></div>
+								</div>
+							</div>
+						</a>
+						<nav id="menu" class="main-menu">
+							<ul>
+								<li><span><a href="{{ path('navigation_home')}}">Home</a></span></li>
+								<li><span><a href="{{ path('navigation_suggestions')}}">Browse</a><span></li>
+								{% for category in categories|slice(0,4) %}
+								<li><span><a
+											href="{{ path('navigation_suggestions')}}?c={{category.slug}}">{{category.name}}</a></span>
+								</li>
+								{% endfor %}
+
+								{% if is_granted('ROLE_CLIENT') %}
+
+								<li><span><a href="{{ path('fos_user_profile_edit')}}" class="avatar"><i
+													class="demo-icon icon-My-profile"></i> <i class="fas fa-caret-down"></i></a></span>
+
+									<ul>
+										<li><a href="{{ path('fos_user_profile_edit')}}">
+												<b>{{app.user.username}}</b></a></li>
+										<li> <a href="{{ path('fos_message_inbox')}}"><i
+													class="fas fa-envelope-open"></i> Messages</a></li>
+										<li><a href="{{ path('navigation_bookings')}}"><i
+													class="fas fa-calendar-check"></i> Bookings</a></li>
+										<li><a href="{{ path('navigation_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+												Reviews</a>				
+										<li><a href="{{ path('navigation_bookmarks')}}"><i class="fas fa-heart"></i>
+												Bookmarks</a></li>
+												
+										
+									</ul>
+
+								</li>
+								{% endif %}
+								{% if is_granted('ROLE_ADMIN') %}
+								<li><span><a href="{{ path('fos_user_profile_edit')}}" class="avatar"><i
+													class="demo-icon icon-My-profile"></i> <i class="fas fa-caret-down"></i></a></span>
+
+									<ul>
+										<li><a href="{{ path('fos_user_profile_edit')}}">
+												<b>{{app.user.username}}</b></a></li>
+										<li> <a href="{{ path('dashboard')}}"> <i
+													class="demo-icon icon-Dashboard"></i>Dashboard</a>
+										</li>
+										<li> <a href="{{ path('fos_message_inbox')}}"> <i
+													class="demo-icon icon-Messages"></i> Messages</a>
+										</li>
+										<li><a href="{{ path('dash_activity_add')}}"><i class="demo-icon icon-Add"></i>
+												Add activity</a></li>
+										<li><a href="{{ path('activities')}}"><i class="demo-icon icon-Activities"></i>
+												Activities</a></li>		
+										<li><a href="{{ path('admin_bookings')}}"><i
+													class="demo-icon icon-Bookings"></i>
+												Bookings</a></li>
+										<li><a href="{{ path('admin_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+												Reviews</a>
+										</li>		
+										<li><a href="{{ path('admin_bookmarks')}}"><i
+													class="demo-icon icon-Bookmarks"></i>
+												Bookmarks</a></li>
+										<li><a href="{{ path('users')}}"><i class="demo-icon icon-Users-table"></i>
+												Users table</a>
+										</li>
+									</ul>
+								</li>
+								{% endif %}
+
+
+						</nav>
+		</header>
+		<!-- /header -->
+		<div>
+
+	

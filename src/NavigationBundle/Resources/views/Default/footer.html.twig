@@ -1,0 +1,126 @@
+{% block stylesheets %}
+        
+{% stylesheets 'bundles/navigation/css/style.css' 
+				   'bundles/navigation/css/bootstrap.min.css'
+                   'bundles/navigation/css/vendors.css'
+                   'bundles/navigation/css/fontello/fontello-codes.css'
+                   'bundles/navigation/css/fontello/fontello-embedded.css'
+                   'bundles/navigation/css/fontello/fontello-ie7-codes.css'
+                   'bundles/navigation/css/fontello/fontello-ie7.css'
+                   'bundles/navigation/css/fontello/fontello.css'
+                   'bundles/navigation/css/jquery.datetimepicker.css'
+                   'bundles/navigation/css/jquery.datetimepicker.css'
+                 
+                
+	        filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+<link href="{{ asset('bundles/navigation/css/bootstrap.min.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+{% endstylesheets %}
+
+{% endblock %}
+<footer class="plus_border">
+	<div class="container margin_60_35">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<a data-toggle="collapse" data-target="#collapse_ft_1" aria-expanded="false"
+					aria-controls="collapse_ft_1" class="collapse_bt_mobile">
+					<h3>Quick Links</h3>
+					<div class="circle-plus closed">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+				</a>
+				<div class="collapse show" id="collapse_ft_1">
+					<ul class="links">
+						<li><a href="{{ path('navigation_about')}}">About us</a></li>
+						<li><a href="{{ path('navigation_help')}}">Help</a></li>
+						{% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
+							<li><a href="{{ path('fos_user_registration_register')}}">Create account</a></li>
+						{% else %}
+							<li><a href="{{ path('fos_user_profile_edit')}}">My account</a></li>
+						{% endif %}
+						<li><a href="{{ path('navigation_contact')}}">Contacts</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<a data-toggle="collapse" data-target="#collapse_ft_2" aria-expanded="false"
+					aria-controls="collapse_ft_2" class="collapse_bt_mobile">
+					<h3>Categories</h3>
+					<div class="circle-plus closed">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+				</a>
+				<div class="collapse show" id="collapse_ft_2">
+					<ul class="links">
+					<li> <a href="{{ path('navigation_suggestions')}}?c=All categories">All categories</a></li>
+						{% for cat in categories %}
+					<li> <a href="{{ path('navigation_suggestions')}}?c={{cat.slug}}">{{cat}}</a></li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<a data-toggle="collapse" data-target="#collapse_ft_3" aria-expanded="false"
+					aria-controls="collapse_ft_3" class="collapse_bt_mobile">
+					<h3>Contacts</h3>
+					<div class="circle-plus closed">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+				</a>
+				<div class="collapse show" id="collapse_ft_3">
+					<ul class="contacts">
+						<li><i class="ti-home"></i>45 Manouba 2010<br>Tunis - TUNISIA</li>
+						<li><i class="ti-headphone-alt"></i>+216 71 584 759</li>
+						<li><i class="ti-email"></i><a href="#0">zourounatunisia@gmail.com</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<a data-toggle="collapse" data-target="#collapse_ft_4" aria-expanded="false"
+					aria-controls="collapse_ft_4" class="collapse_bt_mobile">
+					<div class="circle-plus closed">
+						<div class="horizontal"></div>
+						<div class="vertical"></div>
+					</div>
+					<h3>Keep in touch</h3>
+				</a>
+				<div class="collapse show" id="collapse_ft_4">
+					<div class="follow_us">
+						<h5>Follow Us</h5>
+						<ul>
+							<li><a href="#0"><i class="ti-facebook"></i></a></li>
+							<li><a href="#0"><i class="ti-twitter-alt"></i></a></li>
+							<li><a href="#0"><i class="ti-google"></i></a></li>
+							<li><a href="#0"><i class="ti-pinterest"></i></a></li>
+							<li><a href="#0"><i class="ti-instagram"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /row-->
+		<hr>
+		<div class="row">
+			<div class="col-lg-6">
+				<ul id="footer-selector">
+					<li>
+						<span>English <i class="demo-icon icon-Language"></i></span> 
+					</li>
+					<li>
+						<span>Tunisian dinar <i class="demo-icon icon-Tunisian-dinar"></i></span> 
+					</li>
+				</ul>
+			</div>
+			<div class="col-lg-6">
+				<ul id="additional_links">
+					<li><span>© 2019 {{website_name}} </span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>

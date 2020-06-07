@@ -1,0 +1,33 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+{% block title %} Resetting password {% endblock %}
+
+{% block body %}
+<head>
+	<style>
+	.wrapper{
+		min-height: 200px;
+		margin: 10%;
+	}
+</style>
+</head>
+<div class="wrapper">
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% block fos_user_content %}
+    
+    <p>
+    An email has been sent. It contains a link you must click to reset your password.
+    Note: You can only request a new password once within 2 hours.
+
+    If you don't get an email check your spam folder or try again.
+
+    </p>
+
+</div>
+    {% endblock %}
+{% endblock %}
+{% block javascripts %}{% endblock %}
+
+
+
+

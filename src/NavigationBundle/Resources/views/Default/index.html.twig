@@ -1,0 +1,425 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+
+{% block title%}Home{% endblock %}
+{% block body %}
+<div id="page">
+	<header class="header menu_fixed">
+		<div id="logo">
+			<a href="{{ path('navigation_home')}}" title="Sparker - Directory and listings template">
+				<img src="{{asset("img/logofinaalblanc.png")}}" width="165" height="50" alt="" class="logo_normal">
+				<img src="{{asset("img/logofinal.png")}}" width="165" height="50" alt="" class="logo_sticky">
+			</a>
+		</div>
+		<ul id="top_menu">
+
+			{% if is_granted('ROLE_ADMIN') %}
+			<li><a href="{{ path('dash_activity_add')}}" class="btn_add">Add activity</a></li>
+			{% else %}
+			<li><a href="{{ path('navigation_plan')}}" class="btn_add">My plan</a></li>
+			{% endif %}
+
+			{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+			<li><a href="{{ path('fos_user_security_logout')}}" class="login" title="Logout">Logout</a>
+			</li>
+			{% else %}
+			<li><a href="{{ path('fos_user_security_login')}}" class="login" title="Sign In">Sign In</a>
+			</li>
+			{% endif %}
+
+			{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+			<li><a href="{{ path('navigation_bookmarks')}}" class="wishlist_bt_top" title="Your wishlist">Your
+					wishlist</a></li>
+			{% endif %}
+		</ul>
+		<!-- /top_menu -->
+		<a href="#menu" class="btn_mobile">
+			<div class="hamburger hamburger--spin" id="hamburger">
+				<div class="hamburger-box">
+					<div class="hamburger-inner"></div>
+				</div>
+			</div>
+		</a>
+		<nav id="menu" class="main-menu">
+			<ul>
+				<li><span><a href="{{ path('navigation_home')}}">Home</a></span></li>
+				<li><span><a href="{{ path('navigation_suggestions')}}">Browse</a><span></li>
+				{% for cat in categories|slice(0,4) %}
+				<li><span><a href="{{ path('navigation_suggestions')}}?c={{cat.slug}}">{{cat.name}} </a><span></li>
+				{% endfor %}
+
+				{% if is_granted('ROLE_CLIENT') %}
+
+				<li><span><a href="{{ path('fos_user_profile_edit')}}" class="avatar"><i class="demo-icon icon-My-profile"></i> <i
+								class="fas fa-caret-down"></i></a></span>
+
+					<ul>
+						<li><a href="{{ path('fos_user_profile_edit')}}">
+								<b>{{app.user.username}}</b></a></li>
+						<li> <a href="{{ path('fos_message_inbox')}}"><i class="fas fa-envelope-open"></i> Messages</a>
+						</li>
+						<li><a href="{{ path('navigation_bookings')}}"><i class="fas fa-calendar-check"></i>
+								Bookings</a></li>
+						
+						<li><a href="{{ path('navigation_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+												Reviews</a>	</li>		
+						<li><a href="{{ path('navigation_bookmarks')}}"><i class="fas fa-heart"></i>
+								Bookmarks</a></li>		
+
+					</ul>
+
+				</li>
+				{% endif %}
+				{% if is_granted('ROLE_ADMIN') %}
+				<li><span><a href="{{ path('dashboard')}}" class="avatar"><i class="demo-icon icon-My-profile"></i> <i
+								class="fas fa-caret-down"></i></a></span>
+
+					<ul>
+						<li><a href="{{ path('fos_user_profile_edit')}}">
+								<b>{{app.user.username}}</b></a></li>
+						<li> <a href="{{ path('dashboard')}}"> <i class="demo-icon icon-Dashboard"></i>Dashboard</a>
+						</li>
+						<li> <a href="{{ path('fos_message_inbox')}}"> <i class="demo-icon icon-Messages"></i>
+								Messages</a>
+						</li>
+						<li><a href="{{ path('dash_activity_add')}}"><i class="demo-icon icon-Add"></i>
+												Add activity</a></li>
+						<li><a href="{{ path('activities')}}"><i class="demo-icon icon-Activities"></i>
+												Activities</a></li>	
+						<li><a href="{{ path('admin_bookings')}}"><i class="demo-icon icon-Bookings"></i>
+								Bookings</a></li>
+						<li><a href="{{ path('admin_reviews')}}"><i class="demo-icon icon-Reviews"></i>
+								Reviews</a>
+						</li>		
+						<li><a href="{{ path('admin_bookmarks')}}"><i class="demo-icon icon-Bookmarks"></i>
+								Bookmarks</a></li>
+						
+
+						<li><a href="{{ path('users')}}"><i class="demo-icon icon-Users-table"></i>
+								Users table</a>
+						</li>
+					</ul>
+				</li>
+				{% endif %}
+
+
+		</nav>
+	</header>
+	<!-- /header -->
+	<main class="pattern">
+		<section class="hero_single version_2">
+			<div class="wrapper">
+				<div class="container">
+					<h3>Find what you need!</h3>
+					<p>Discover top rated hotels, shops and restaurants in Tunisia </p>
+
+					<form action="{{ path('navigation_suggestions')}}" method='get'>
+						<div class="row no-gutters custom-search-input-2 inner">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<input class="form-control" type="search" placeholder='What are you looking for...'
+										name='q' autocomplete="off">
+									<i class="icon_search"></i>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<select class=" select wide form-control" name="t">
+										<option> All cities </option>
+										{% for city in cities %}
+										<option> {{city}} </option>
+										{% endfor %}
+									</select>
+									<i class="fas fa-angle-down"></i>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="form-group">
+									<select class="nice-select wide form-control" name="c">
+										<option> All categories</option>
+										{% for cat in categories %}
+										<option> {{cat.slug}} </option>
+										{% endfor %}
+									</select>
+									<i class="fas fa-angle-down"></i>
+								</div>
+							</div>
+							<div class="col-lg-1">
+								<input type="submit" value="Search">
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</section>
+		<!-- /hero_single -->
+
+		<div class="main_categories">
+			<div class="container">
+				<ul class="clearfix">
+					{% for cat in categories|slice(0,4) %}
+					<li>
+						<a href="{{ path('navigation_suggestions')}}?c={{cat.slug}}">
+							<i class="demo-icon icon-{{cat.name}}"></i>
+							<h3>{{cat.name}} </h3>
+						</a>
+					</li>
+					{% endfor %}
+					<li>
+						<a href="{{ path('navigation_suggestions')}}">
+							<i class="icon-dot-3"></i>
+							<h3>More</h3>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /main_categories -->
+
+
+		<div class="container-fluid margin_80_55">
+			<div class="main_title_2">
+				<span><em></em></span>
+				<h2>Popular activities</h2>
+				<p>Our visitors loved this sophistically chosen list</p>
+			</div>
+			<div id="reccomended" class="owl-carousel owl-theme">
+				{% for activity in activities %}
+				<div class="item">
+					<div class="strip grid">
+						<figure>
+							{% if app.user == null %}
+							<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+								class="wish_bu" id="{{activity.slug}}"></a>
+
+
+							{% elseif app.user == true and activity.isBookmarkedByUser(app.user) == false and is_granted('ROLE_CLIENT') %}
+							<a href="{{path('navigation_bookmarks_action',{slug: activity.slug})}}" class="wish_bt"
+								id="{{activity.slug}}">
+							</a>
+							{% elseif app.user == true and activity.isBookmarkedByUser(app.user) == true %}
+							<a href="{{path('navigation_bookmarks_action',{slug: activity.slug})}}"></a>
+							{% endif %}
+							<a href="{{path('navigation_details_and_reservation',{slug: activity.slug})}}">
+								{% for image in activity.image %}
+								<img src="{{asset(image.path)}}" class="img-fluid" alt="" width="400">
+								<div class="read_more">
+									<span>
+										Read more</span></div>
+								{% endfor %}
+							</a>
+							<small>{{activity.category.name}}</small>
+						</figure>
+						<div class="wrapper">
+							<h3><a
+									href="{{path('navigation_details_and_reservation',{slug: activity.slug})}}">{{activity.title}}</a>
+							</h3>
+							<small>{{ activity.address }}</small> <br>
+							<p>{{ activity.description |striptags |slice(0, 50) ~ '...' }}</p> <br>
+
+						</div>
+						<ul>
+							<li><span class="loc_open">{{ activity.price }} TND</span></li>
+							<li>
+								<div class="score"><span><em> {{activity.reviews|length}}
+											Review{% if activity.reviews|length > 1 %}s{% endif %}</em>
+									</span><strong>{{ activity.note }}/5</strong></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				{% endfor %}
+			</div>
+			<!-- /carousel -->
+			<div class="container">
+				<div class="btn_home_align"><a href="{{ path('navigation_suggestions')}}" class="btn_1 rounded">View
+						all</a></div>
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /container -->
+
+		<div class="bg_color_1">
+			<div class="container margin_80_55">
+				<div class="main_title_2">
+					<span><em></em></span>
+					<h2>Popular Categories</h2>
+					<p>{{website_name}} handly selected the best for you .</p>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-lg-3 col-md-6">
+						<a href="{{ path('navigation_suggestions')}}?c=shops" class="box_cat_home">
+							<i class="icon_menu-circle_alt"></i>
+							<img src="{{asset("img/icon_home_1.svg")}}" width="65" height="65" alt="">
+							<h3>Shops</h3>
+							<ul>
+								{% for cat in categories %}
+								{% if cat.name == 'Shops'%}
+								<li><strong>{{cat.activities|length }}</strong>Locations</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</a>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<a href="{{ path('navigation_suggestions')}}?c=hotels" class="box_cat_home">
+							<i class="icon_menu-circle_alt"></i>
+							<img src="{{asset("img/icon_home_2.svg")}}" width="65" height="65" alt="">
+							<h3>Hotels</h3>
+							<ul class="clearfix">
+								{% for cat in categories %}
+								{% if cat.name == 'Hotels'%}
+								<li><strong>{{cat.activities|length }}</strong>Locations</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</a>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<a href="{{ path('navigation_suggestions')}}?c=restaurants" class="box_cat_home">
+							<i class="icon_menu-circle_alt"></i>
+							<img src="{{asset("img/icon_home_3.svg")}}" width="65" height="65" alt="">
+							<h3>Restaurants</h3>
+							<ul class="clearfix">
+								{% for cat in categories %}
+								{% if cat.name == 'Restaurants'%}
+								<li><strong>{{cat.activities|length }}</strong>Locations
+								</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</a>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<a href="{{ path('navigation_suggestions')}}?c=cafes" class="box_cat_home">
+							<i class="icon_menu-circle_alt"></i>
+							<img src="{{asset("img/icon_home_4.svg")}}" width="65" height="65" alt="">
+							<h3>Cafes </h3>
+							<ul class="clearfix">
+								{% for cat in categories %}
+								{% if cat.name == 'Cafes'%}
+								<li><strong>{{cat.activities|length }}</strong>Locations</li>
+								{% endif %}
+								{% endfor %}
+							</ul>
+						</a>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bg_color_1 -->
+			<!-- /container -->
+
+			<div class="call_section">
+				<div class="wrapper">
+					<div class="container margin_80_55">
+						<div class="main_title_2">
+							<span><em></em></span>
+							<h2>How it Works</h2>
+							<p>{{website_name}} helps you find, reserve and plan the best of activities in Tunisia.</p>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="box_how">
+									<i class="pe-7s-search"></i>
+									<h3>Search Locations</h3>
+									<p>Choose and plan the best activities in Tunisia for the lowest price. </p>
+									<span></span>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="box_how">
+									<i class="pe-7s-info"></i>
+									<h3>View Location Info</h3>
+									<p>Find your destination easely and gain time enjoying the views rather than being
+										lost in a map ! </p>
+									<span></span>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="box_how">
+									<i class="pe-7s-like2"></i>
+									<h3>Book, Reach or Call</h3>
+									<p>Our application is costum made for you, available 24/7 !</p>
+								</div>
+							</div>
+						</div>
+						<!-- /row -->
+						{% if app.user == null %}
+						<p class="text-center add_top_30 wow bounceIn" data-wow-delay="0.5s"><a
+								href="{{path('fos_user_registration_register')}}" class="btn_1 rounded">Register Now</a>
+						</p>
+						{% endif %}
+					</div>
+
+					<canvas id="hero-canvas" width="1920" height="1080"></canvas>
+					<!-- /wrapper -->
+				</div>
+				<!--/call_section-->
+			</div>
+			<div class="container margin_80_55">
+				<div class="main_title_2">
+					<span><em></em></span>
+					<h2>{{website_name}} App Available</h2>
+					<p>Check you roadmap anytime anywhere.</p>
+				</div>
+				<div class="row justify-content-center text-center">
+					<div class="col-md-6">
+						<img src="{{asset("img/mobile.svg")}}" alt="" class="img-fluid add_bottom_45">
+						<div class="app_icons">
+							<a href="#0" class="pr-lg-2"><img src="" alt=""></a>
+							<a href="#0" class="pl-lg-2"><img src="" alt=""></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /container -->
+	</main>
+	<!-- /main -->
+
+	<!--/footer-->
+</div>
+<!-- page -->
+<div id="toTop"></div><!-- Back to top button -->
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+	$('.wish_bt').on('click', function () {
+		thisbutton = $(this);
+		$.ajax({
+			url: $(this).attr('href')
+		}).done(function (data) {
+			
+			thisbutton.remove();
+			if (typeof data.message !== 'undefined') {
+				var bookmarks = "{{path('navigation_bookmarks')}}"
+				id = $(".wish_bt").closest("a").attr("id");
+				console.log(id);
+				$.confirm({
+					title: data.message,
+					content: 'activity bookmarked',
+					type: 'blue',
+					typeAnimated: true,
+					buttons: {
+						tryAgain: {
+							text: 'See bookmarks',
+							btnClass: 'btn-sucess',
+							action: function () {
+								window.location.href = bookmarks;
+							}
+						},
+						close: function () {}
+					}
+				});
+
+			}
+		});
+	});
+</script>
+
+{% endblock %}
+{% endblock %}

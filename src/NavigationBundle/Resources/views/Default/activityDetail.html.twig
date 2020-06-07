@@ -1,0 +1,630 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+{% block title %} {{activity.title}} {% endblock %}
+{% block body %}
+
+<head>
+	<meta property="og:url" content="http://www.google.com" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="test" />
+	<meta property="og:description" content="Your description" />
+	<meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+	<style>
+		/* Make the image fully responsive */
+		.carousel-inner img {
+			width: 100%;
+			height: 550px;
+		}
+
+		body {
+			font-family: Arial;
+			font-size: 10pt;
+		}
+
+		.modal,
+		.modal1 {
+			position: fixed;
+			z-index: 999;
+			height: 100%;
+			width: 100%;
+			top: 0;
+			left: 0;
+			background-color: Black;
+			filter: alpha(opacity=70);
+			opacity: 0.7;
+			-moz-opacity: 0.8;
+		}
+
+		.center {
+			z-index: 1000;
+			margin: 300px auto;
+			padding: 10px;
+			width: 130px;
+			background-color: transparent;
+			border-radius: 10px;
+			filter: alpha(opacity=100);
+			opacity: 1;
+			-moz-opacity: 1;
+		}
+
+		.center img {
+			height: 50px;
+			width: 50px;
+		}
+
+		.gllpmap {
+			width: 100%;
+			height: 350px;
+		}
+
+		@media (max-width: 500px) {
+			.gllpmap {
+				width: 80%;
+				height: 350px;
+			}
+	</style>
+</head>
+<main>
+	<div class="hero_in restaurant_detail">
+		<div class="wrapper">
+			<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				<!-- Indicators -->
+				<ul class="carousel-indicators">
+					{% for image in activity.image %}
+					<li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index}}}"
+						{% if loop.index0 == 0 %} class="active" {% endif %}></li>
+					{% endfor %}
+				</ul>
+
+				<!-- The slideshow -->
+				<div class="carousel-inner">
+					{% for image in activity.image %}
+					<div {% if loop.index0 == 0 %} class="carousel-item active" {% else %} class="carousel-item"
+						{% endif %}>
+						<img src="{{asset(image.path)}}" alt="{{ image.path }}">
+					</div>
+					{% endfor %}
+				</div>
+				<!-- Left and right controls -->
+				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				</a>
+				<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!--/hero_in-->
+	<nav class="secondary_nav sticky_horizontal_2">
+		<div class="container">
+			<ul class="clearfix">
+				<li><a href="#description" class="active">Description</a></li>
+				<li><a href="#location">Location</a></li>
+				<li><a href="#reviews">Reviews</a></li>
+			</ul>
+		</div>
+	</nav>
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	<div class="alert alert-success" role="alert" style="width: 100% ; text-align: center">
+		{{flashMessage}}
+	</div>
+	{% endfor %}
+	<div class="container margin_60_35">
+		<div class="row">
+			<div class="col-lg-8">
+				<section id="description">
+					<div class="detail_title_1">
+						<h1>{{activity.title}}</h1>
+						<a class="address">
+							{{activity.address}}</a>
+					</div>
+					<p>{{ activity.description | raw }}</p>
+					<h5 class="add_bottom_15">Languages</h5>
+					<i class="demo-icon icon-Language"></i>
+					{% for language in activity.language %}
+					{{language}},
+					{% endfor %}
+					<br><br>
+
+					{% if activity.phone is not null or activity.email is not null or activity.website or activity.facebookLink %}
+
+					<h5 class="add_bottom_15">Contacts</h5>
+
+					{% endif %}
+					{% if activity.phone is not null  %}
+					<p><i class="demo-icon icon-Phone-call"></i> Phone : +216 {{ activity.phone }} </p>
+					{% endif %}
+					{% if activity.email is not null  %}
+					<p><i class="demo-icon icon-Email"></i> Email : {{ activity.email }} </p>
+					{% endif %}
+					{% if activity.website is not null  %}
+					<p><i class="demo-icon icon-Website"></i> Website : {{ activity.website }} </p>
+					{% endif %}
+					{% if activity.facebookLink is not null  %}
+					<p><i class="demo-icon icon-Facebook"></i> Facebook : {{ activity.facebookLink }} </p>
+					{% endif %}
+					<h5 class="add_bottom_15">Amenities</h5>
+
+					<div class="row add_bottom_30">
+						<div class="col-md-6">
+							<ul class="usefulInformation">
+								{% for information in activity.usefulInformation %}
+								<li> <i class="demo-icon icon-{{ information }}"></i> {{ information }} </li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<!-- /row -->
+					<div class="opening">
+						<i class="icon_clock_alt"></i>
+						<h4>Opening Hours</h4>
+						<div class="row">
+							<div class="col-md-6">
+								<ul>
+									{% if activity.availability.mondayOpening is not null
+                          and activity.availability.mondayClosing is not null %}
+									<li> Monday : {{ activity.availability.mondayOpening }} -
+										{{ activity.availability.mondayClosing }}
+									</li>
+									{% else %}
+									<li> Monday : Closed </li>
+									{% endif %}
+									{% if activity.availability.tuesdayOpening is not null
+                          and activity.availability.tuesdayClosing is not null %}
+									<li> Tuesday : {{ activity.availability.tuesdayOpening }} -
+										{{ activity.availability.tuesdayClosing }}
+									</li>
+									{% else %}
+									<li> Tuesday : Closed </li>
+									{% endif %}
+									{% if activity.availability.wednesdayOpening is not null
+                          and activity.availability.wednesdayClosing is not null %}
+									<li> Wednesday : {{ activity.availability.wednesdayOpening }} -
+										{{ activity.availability.wednesdayClosing }} </li>
+									{% else %}
+									<li> Wednesday : Closed </li>
+									{% endif %}
+									{% if activity.availability.ThursdayOpening is not null
+                          and activity.availability.ThursdayClosing is not null %}
+									<li> Wednesday : {{ activity.availability.ThursdayOpening }} -
+										{{ activity.availability.ThursdayClosing }} </li>
+									{% else %}
+									<li> Thursday : Closed </li>
+									{% endif %}
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<ul>
+									{% if activity.availability.fridayOpening is not null
+                          and activity.availability.fridayClosing is not null %}
+									<li> Friday : {{ activity.availability.fridayOpening }} -
+										{{ activity.availability.fridayClosing }}
+									</li>
+									{% else %}
+									<li> Friday : Closed </li>
+									{% endif %}
+									{% if activity.availability.saturdayOpening is not null
+                          and activity.availability.saturdayClosing is not null %}
+									<li> Saturday : {{ activity.availability.saturdayOpening }} -
+										{{ activity.availability.saturdayClosing }} </li>
+									{% else %}
+									<li> Saturday : Closed </li>
+									{% endif %}
+									{% if activity.availability.sundayOpening is not null
+                          and activity.availability.sundayClosing is not null %}
+									<li> Sunday : {{ activity.availability.sundayOpening }} -
+										{{ activity.availability.sundayClosing }}
+									</li>
+									{% else %}
+									<li> Sunday : Closed </li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /opening -->
+					<hr>
+					{% if activity.video is not null  %}
+					<iframe class="video" width="730" height="400" src="{{activity.video}}" frameborder="0"
+						allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen></iframe>
+					{% endif %}
+					<hr>
+					<h3 id="location">Location</h3>
+					<fieldset class="gllpLatlonPicker video ">
+						<div class="gllpMap">Google Maps </div>
+						<input type="hidden" class="gllpLatitude" value="{{activity.latitude}}">
+						<input type="hidden" class="gllpLongitude" value="{{activity.longitude}}">
+						<input type="hidden" class="gllpZoom" value="{{activity.zoom}}">
+					</fieldset>
+					<!-- End Map -->
+				</section>
+				<!-- /section -->
+				<section id="reviews">
+					{% if  activity.reviews|length >0 %}
+					<h2> {{activity.reviews|length}} Review{% if activity.reviews|length > 1 %}s {% endif %}</h2>
+					{% endif %}
+					<div class="reviews-container">
+						{% for review in activity.reviews %}
+						<div clasmets="review-box clearfix">
+							<div class="rev-content">
+								{% if review.rating != 0 %}
+								<div class="rating" data-rating="{{ review.rating }}">
+									<i class="fa fa-fw fa-star"></i>
+									<i class="fa fa-fw fa-star"></i>
+									<i class="fa fa-fw fa-star"></i>
+									<i class="fa fa-fw fa-star"></i>
+									<i class="fa fa-fw fa-star"></i>
+								</div>
+								{% endif %}
+								<div class="rev-info">
+									{{review.user}}– {{review.createdAt|date('d/m/Y')}}
+								</div>
+								<div class="rev-text">
+									<p>
+										{{review.content |raw}}
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+				</section>
+				<hr>
+				<div class="add-review">
+					<h5>Leave a Review</h5>
+					{{form_start(reviewform,{'attr':{'class': 'validate'}})}}
+					{{form_row(reviewform.content)}}
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Rating </label>
+								{{ form_widget(reviewform.rating) }}
+							</div>
+						</div>
+					</div>
+					{% if app.user == null %}
+					<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+						class="btn_1 btn-success wishlist">Submit</a>
+					{% else %}
+					<button type="submit" class="btn_1" id="submit-review">Submit </button>
+					{% endif %}
+					{{form_end(reviewform)}}
+
+
+
+				</div>
+			</div>
+			<br>
+			<!-- /col -->
+			<aside class="col-lg-4" id="sidebar">
+				<div class="box_detail booking">
+					{% if activity.category.name !="Shops" %}
+					<div class="price">
+						<h5 class="d-inline">{{activity.price}} TND/Person </h5>
+
+						<div class="score"><span><em> {{ activity.reviews | length}}
+									Review{% if activity.reviews|length > 1 %}s{% endif %}</em></span><strong>{{ activity.note }}/5</strong>
+						</div>
+					</div>
+					<small> Please make sure the time you choose suits the activity time. </small> <br> <br>
+					<form method="POST" class="ajaxForm validate"
+						action="{{ path('navigation_details_and_reservation',{slug: activity.slug}) }}"
+						{{ form_enctype(form) }}>
+						<div id="form_body">
+							{{ form_start(form) }}
+							<div class="form-group">
+								{{ form_widget(form.date,{'attr':{'placeholder':'When..','class':'form-control datetime','min':"1", 'autocomplete':"off"}})}}
+								<i class="icon_calendar"></i>
+							</div>
+
+							{{ form_widget(form.nbParticipants,{'label':'Adresse e-mail',
+								'attr':{'placeholder':'guests','class':'form-control','min':"1"}}) }}
+
+							{{ form_widget(form.activity,{'label':'Adresse e-mail',
+								'attr':{'placeholder':'guests','class':'form-control'}}) }}
+
+							{% if app.user == null %}
+							<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+								class=" add_top_30 btn_1 full-width purchase">Purchase</a>
+							{% else %}
+							<button type="submit" class=" add_top_30 btn_1 full-width purchase">Purchase</button>
+							{{form_rest(form)}}
+							{% endif %}
+						</div>
+					</form>
+					{% else %}
+					<div class="price">
+						{% for flashMessage in app.session.flashbag.get('success') %}
+						<div class="alert alert-success" role="alert" style="width: 100% ; text-align: center">
+							{{flashMessage}}
+						</div>
+						{% endfor %}
+						<h5 class="d-inline">Contact us</h5>
+
+						<div class="score"><span><em> {{ activity.reviews | length}}
+									Review{% if activity.reviews|length > 1 %}s{% endif %}</em></span><strong>{{ activity.note }}/5</strong>
+						</div>
+
+
+						{{form_start(formMail,{'attr':{'class': 'validate'}})}}
+						<div class="form-group">
+							{{form_row(formMail.name,{'attr':{'placeholder':'Your name','class':'form-control', 'autocomplete':"off"}})
+							}}
+						</div>
+						<div class="form-group">
+							{{form_row(formMail.last_name,{'attr':{'placeholder':'Your last name','class':'form-control', 'autocomplete':"off"}})
+							}}
+						</div>
+						<div class="form-group">
+							{{form_row(formMail.telephone,{'attr':{'placeholder':'Your phone number','class':'form-control', 'autocomplete':"off"}})
+							}}
+						</div>
+						{{form_row(formMail.addressMail,{'attr':{'placeholder':'Your email','class':'form-control', 'autocomplete':"off"}})
+						}}
+					</div>
+
+					<div class="form-group">
+						{{form_row(formMail.subject,{'attr':{'placeholder':'subject','class':'form-control', 'autocomplete':"off"}})
+						}}
+					</div>
+
+					<div class="form-group">
+						{{form_row(formMail.object,{'attr':{'placeholder':'What do you want to say?','class':'form-control', 'autocomplete':"off"}})
+						}}
+					</div>
+
+					{% if app.user == null %}
+					<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+						class=" add_top_30 btn_1 full-width purchase">Contact us</a>
+					{% else %}
+					<button type="submit" class=" add_top_30 btn_1 full-width purchase">Contact us</button>
+					{{form_end(formMail)}}
+					{% endif %}
+
+					{% endif %}
+
+					{% if app.user == null %}
+					<a href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}"
+						class="btn_1 full-width outline wishlist"><i class="icon_heart"></i> Add
+						to wishlist</a>
+					{% elseif app.user == true and activity.isBookmarkedByUser(app.user) == false %}
+					{% if is_granted('ROLE_CLIENT') %}
+					<a data-href="{{path('navigation_bookmarks_action',{slug: activity.slug})}}"
+						class="btn_1 full-width outline wishlist"><i class="icon_heart"></i> Add
+						to wishlist</a>
+					{% endif %}
+					{% endif %}
+					<div class="text-center"><small>No money charged in this step</small></div>
+				</div>
+		</div>
+		<ul class="share-buttons" style="margin-top:100px">
+			<div id="share"></div>
+			
+					{% if app.user == null %}
+						<li><a class="gplus-share" href="{{ path('fos_user_security_login')~'?target_path='~app.request.uri }}" onclick="popUp()"></i> Need help ?</a></li> <br>
+					{% elseif app.user == true  %}
+					{% if is_granted('ROLE_CLIENT') %}
+					<li><a class="gplus-share" href="#card" onclick="popUp()"></i> Need help ?</a></li> <br>
+					{% endif %}
+					{% endif %}
+		</ul>
+
+	</div>
+	</div>
+	<aside>
+		</div>
+		<!-- /row -->
+		<!-- /container -->
+		<div id="toTop"></div><!-- Back to top button -->
+
+		<div class="modal1" style="display: none">
+			<div class="center">
+				<img alt="" src="{{asset("img/bookmark-loader.gif")}}" />
+			</div>
+		</div>
+		<div class="modal" style="display: none">
+			<div class="center">
+				<img alt="" src="{{asset("img/ajax-loader.gif")}}" />
+			</div>
+		</div>
+</main>
+{% block stylesheets %}
+
+{% stylesheets 'bundles/navigation/css/style.css' 
+				   'bundles/navigation/css/bootstrap.min.css'
+                   'bundles/navigation/css/vendors.css'
+                   'bundles/navigation/css/jquery.datetimepicker.css'
+				   'bundles/navigation/css/jquery-gmaps-latlon-picker.css'
+                
+	        filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+
+<link type="text/css" rel="stylesheet"
+	href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+
+<link type="text/css" rel="stylesheet"
+	href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-flat.css" />
+{% endstylesheets %}
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--Datetime picker cdn-->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js">
+</script>
+<script src="http://cdn.craig.is/js/rainbow-custom.min.js"></script>
+<!--Jquery confirm -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyD9vrkLJKSv1SFSa-_ojqx3s8Q-uHM4U5Q"></script>
+<!-- google maps -->
+<script src="{{asset ("bundles/navigation/js/jquery-gmaps-latlon-picker.js")}}"></script>
+
+
+{# smooth scrolling script #}
+<script>
+	$(document).ready(function () {
+		$(".gplus-share").on('click', function (event) {
+			if (this.hash !== "") {
+				event.preventDefault();
+				var hash = this.hash;
+				$('html, body').animate({
+					scrollTop: $(hash).offset().top
+				}, 900, function () {
+					window.location.hash = hash;
+				});
+			}
+		});
+	});
+</script>
+
+{# datetime picker script #}
+<script type="text/javascript">
+	$(".datetime").datetimepicker();
+</script>
+
+{# reservation script #}
+<script>
+	function initAjaxForm() {
+		$('body').on('submit', '.ajaxForm', function (e) {
+
+			e.preventDefault();
+
+			$.ajax({
+				type: $(this).attr('method'),
+				url: $(this).attr('action'),
+				data: $(this).serialize(),
+				beforeSend: function () {
+					$(".modal").show();
+				},
+				complete: function () {
+					$(".modal").hide();
+				},
+				success: function (data) {
+					if (typeof data.message !== 'undefined') {
+						$.alert(data.message);
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if (typeof jqXHR.responseJSON !== 'undefined') {
+						if (jqXHR.responseJSON.hasOwnProperty('form')) {
+							$.alert(jqXHR.responseJSON.form);
+						}
+
+						$.alert(jqXHR.responseJSON.message);
+
+					} else {
+						$.alert(errorThrown);
+					}
+				}
+			})
+		});
+	}
+	initAjaxForm();
+</script>
+
+{# need help section script #}
+<script>
+	function popUp() {
+		document.getElementById("card").style.display = "block";
+	}
+
+	function closeForm() {
+		document.getElementById("card").style.display = "none";
+	}
+</script>
+
+{# Rating script #}
+<script>
+	$('.rating').each(function () {
+		thisrating = $(this);
+		for (i = 0; i <= parseInt(thisrating.data('rating')); i++) {
+			$(thisrating).find('i:nth-child(' + i + ')').addClass('voted');
+		};
+	})
+</script>
+
+{# Bookmark script #}
+<script>
+	$('.wishlist').on('click', function () {
+		console.log("clicked");
+		$.ajax({
+			url: $(this).attr('data-href'),
+			beforeSend: function () {
+				$(".modal1").show();
+			},
+			complete: function () {
+				$(".modal1").hide();
+			},
+			success: function (data) {
+				if (typeof data.message !== 'undefined') {
+					var bookmarks = "{{path('navigation_bookmarks')}}"
+					$.confirm({
+						title: data.message,
+						content: 'activity bookmarked',
+						type: 'blue',
+						typeAnimated: true,
+						buttons: {
+							tryAgain: {
+								text: 'See bookmarks',
+								btnClass: 'btn-sucess',
+								action: function () {
+									window.location.href = bookmarks;
+								}
+							},
+							close: function () {}
+						}
+					});
+					$(".wishlist").fadeOut(1000, function () {
+						this.remove();
+					})
+				}
+			}
+		})
+
+	});
+</script>
+<script>
+	$("#share").jsSocials({
+		
+		showCount: false,
+		showLabel: true,
+		url: "{{absolute_url(path(app.request.get('_route'),{slug: activity.slug}))}}",
+		shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
+	});
+</script>
+<script>
+	$('.gplus-share').on('click', function () {
+		console.log("clicked");
+		$.confirm({
+			title: 'Our staff will reach out to you very soon.',
+			content: 'url:{{path('fos_message_thread_new')}}',
+			onContentReady: function () {
+
+			},
+			onClose: function () {},
+			columnClass: 'medium',
+			buttons: {
+				'Cancel': function () {},
+
+			}
+		});
+
+	});
+</script>
+
+
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "NavigationBundle:Default:base.html.twig" %}
+
+{% block title%}Help{% endblock %}
+{% block body %}
+<div class="sub_header_in">
+	<div class="container">
+		<h1>Help Section</h1>
+	</div>
+	<!-- /container -->
+</div>
+<!-- /sub_header -->
+
+<main>
+	<div class="container margin_60_35">
+		<div class="main_title_2">
+			<span><em></em></span>
+			<h2>Help topic</h2>
+			<p>{{website_name}} offers the client many help topics.</p>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<span><i class="pe-7s-wallet"></i></span>
+					<h3>Payments</h3>
+					<p>{{website_name}} gives the opportunity to pay bookings by many types of payment cards.</p>
+				</a>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<i class="pe-7s-users"></i>
+					<h3>Account</h3>
+					<p>To book an activity, bookmark it or leave a review the client must have an account.</p>
+				</a>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<i class="pe-7s-help2"></i>
+					<h3>General help</h3>
+					<p>{{website_name}} helps the client find, book and plan the best of activities in Tunisia.</p>
+				</a>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<i class="pe-7s-global"></i>
+					<h3>International</h3>
+					<p>{{website_name}} is an international website, also available on mobile, that allows everyone from anywhere to browse its content and book activities.</p>
+				</a>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<i class="pe-7s-note2"></i>
+					<h3>Cancellation</h3>
+					<p>{{website_name}} offers the client the opportunity to cancel his bookings as far as they're not approved by the admin.</p>
+				</a>
+			</div>
+			<div class="col-lg-4 col-md-6">
+				<a class="box_topic" >
+					<i class="pe-7s-comment"></i>
+					<h3>Reviews</h3>
+					<p>Zourouna offers the client the opportunity to leave a review for an activity and even rating it as far as he has an account.</p>
+				</a>
+			</div>
+		</div>
+		<!--/row-->
+</main>
+<!--/main-->
+</div>
+<!-- page -->
+<div id="toTop"></div><!-- Back to top button -->
+{% endblock %}
+

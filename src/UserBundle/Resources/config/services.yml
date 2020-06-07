@@ -1,0 +1,7 @@
+services:
+    my.oauth_aware.user_provider.service:
+        class: UserBundle\Security\Provider\MyFOSUBProvider
+        arguments:
+            - '@fos_user.user_manager'
+            - { facebook: facebookId, google: googleId }
+            - '@doctrine'

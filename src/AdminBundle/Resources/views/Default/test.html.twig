@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+{% block title %} Activities {% endblock %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('dashboard')}}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">My activities</li>
+            </ol>
+            <!-- Icon Cards-->
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert" style="width: 830px ; text-align: center">{{flashMessage}} </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert" style="width: 830px ; text-align: center">{{flashMessage}} </div>
+            {% endfor %}
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="demo-icon icon-Activities"></i>Activities</h2>
+                </div>
+
+                <div class="list_general">
+                    <ul>
+                        {% for activity in activities %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <img src ="{{ activity.photo }}" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <small>{{activity.category.name}}</small>
+                                        <h4> {{activity.title}} </h4> <br>
+                                        {{ activity.description | raw }}
+                                    </div>
+                                    <div class="col-sm-8">
+
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    {% include "AdminBundle:Default:nav.html.twig" %}
+    {% block javascripts %}
+        <script src="{{asset ("bundles/admin/js/admin.js") }}"> </script>
+    {% endblock %}
+{% endblock %}

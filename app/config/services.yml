@@ -1,0 +1,19 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    uploads_directory: '%kernel.root_dir%/../web/uploads'
+    my_user_provider.class: AppBundle\Entity\FOSUBUserProvider
+
+services:
+    my_user_provider:
+        class: "%my_user_provider.class%"
+        #this is the place where the properties are passed to the UserProvider - see config.yml
+        arguments: [@fos_user.user_manager,{facebook: facebook_id, google: google_id}]
+
+    service:
+        class: AppBundle\Services\ServiceActivities
+        arguments: [ '@doctrine.orm.entity_manager' ]
+    serviceReservation:
+        class: AppBundle\Services\ServiceReservations
+        arguments: [ '@doctrine.orm.entity_manager' ]        
+        

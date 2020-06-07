@@ -1,0 +1,95 @@
+navigation_home:
+    path:     /
+    defaults: { _controller: NavigationBundle:Default:showCat } 
+ 
+navigation_page_vide:
+    path:     /pv
+    defaults: { _controller: NavigationBundle:Default:EmptyPage } 
+
+navigation_suggestions:
+    path:     /suggestions
+    defaults: { _controller: NavigationBundle:Default:Suggestions } 
+
+navigation_about:
+    path:     /about
+    defaults: { _controller: NavigationBundle:Default:AboutPage } 
+
+navigation_help:
+    path:     /help
+    defaults: { _controller: NavigationBundle:Default:HelpPage } 
+
+navigation_contact:
+    path:     /contact
+    defaults: { _controller: NavigationBundle:Default:ContactForm } 
+
+navigation_contact:
+    path:     /contact
+    defaults: { _controller: NavigationBundle:Default:ContactForm } 
+
+
+navigation_categories:
+    path:     /categories
+    defaults: { _controller: NavigationBundle:Default:categoriesAll } 
+
+navigation_header:
+    path:     /links
+    defaults: { _controller: NavigationBundle:Default:Header }
+navigation_footer:
+    path:     /footer
+    defaults: { _controller: NavigationBundle:Default:Footer }       
+  
+# user dashboard routes
+
+navigation_bookmarks:
+    path:     /client/bookmarks
+    defaults: { _controller: NavigationBundle:Default:ShowBookmarks } 
+
+navigation_bookmark_delete:
+    path:     /client/bookmarks/delete/{id}
+    defaults: { _controller: NavigationBundle:Default:DeleteBookmark } 
+
+navigation_bookmarks_action:
+    path:     /client/bookmark/{slug}
+    defaults: { _controller: NavigationBundle:Default:Bookmark }
+
+
+navigation_bookings:
+    path:     /client/bookings
+    defaults: { _controller: NavigationBundle:Default:Bookings } 
+
+navigation_reviews:
+    path:     /client/reviews
+    defaults: { _controller: NavigationBundle:Default:ShowReviews } 
+
+navigation_delete_reviews:
+    path:     /reviews/delete/{id}
+    defaults: { _controller: NavigationBundle:Default:deleteReview } 
+
+navigation_plan:
+    path:     /client/plan
+    defaults: { _controller: NavigationBundle:Default:Plan } 
+
+
+# reservation routes
+
+navigation_details_and_reservation: 
+    path:     /details/{slug}
+    defaults: { _controller: NavigationBundle:Default:details } 
+
+navigation_load_bookings:
+    path:     /loadBookings
+    defaults: { _controller: NavigationBundle:Default:LoadBookings } 
+
+navigation_delete_bookings:
+    path:     /DeleteBookings/{id}
+    defaults: { _controller: NavigationBundle:Default:deleteBooking }
+
+navigation_pay_booking:
+    path:     /PayBooking/{id}
+    defaults: { _controller: NavigationBundle:Default:PayBooking }
+
+navigation_checkout:
+    path:     /client/checkout/{id}
+    defaults: { _controller: NavigationBundle:Default:Checkout } 
+
+ 

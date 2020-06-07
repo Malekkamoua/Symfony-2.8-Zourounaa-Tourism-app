@@ -1,0 +1,79 @@
+dashboard:
+    path:     /admin/dashboard
+    defaults: { _controller: AdminBundle:Default:dashboard }
+
+blank:
+    path:     /admin/blank
+    defaults: { _controller: AdminBundle:Default:blank }   
+
+activities:
+    path:     /admin/activities
+    defaults: { _controller: AdminBundle:Default:activities }
+
+dash_activity_add:
+    path:     /admin/add
+    defaults: { _controller: AdminBundle:Default:form }
+
+dash_activity_edit:
+    path:     /admin/edit/{slug}
+    defaults: { _controller: AdminBundle:Default:form }
+
+dash_activity_delete:
+    path:     /admin/delete/{slug}
+    defaults: { _controller: AdminBundle:Default:deleteActivity }
+
+dash_activity_details:
+    path:     /admin/details/{slug}
+    defaults: { _controller: AdminBundle:Default:details }
+
+admin_reviews:
+    path:     /admin/reviews
+    defaults: { _controller: AdminBundle:Default:reviews }
+
+dash_review_delete:
+    path:     /admin/deleteReview/{id}
+    defaults: { _controller: AdminBundle:Default:deleteReview }
+
+admin_bookmarks:
+    path:     /admin/bookmarks
+    defaults: { _controller: AdminBundle:Default:bookmarks }
+
+dash_bookmark_delete:
+    path:     /admin/deleteBookmark/{id}
+    defaults: { _controller: AdminBundle:Default:deleteBookmark }
+
+admin_bookings:
+    path:     /admin/bookings
+    defaults: { _controller: AdminBundle:Default:bookings }
+
+dash_booking_approuve:
+    path:     /admin/approveBooking/{id}
+    defaults: { _controller: AdminBundle:Default:ApprouveBooking }
+
+
+dash_booking_delete:
+    path:     /admin/deleteBooking/{id}
+    defaults: { _controller: AdminBundle:Default:deleteBooking }
+
+users:
+    path: /admin/users
+    defaults: {_controller: AdminBundle:Default:users}
+
+block:
+    path: /admin/block/{id}
+    defaults: {_controller: AdminBundle:Default:blockUser}
+
+call_back:
+    path: /admin/call_back/{id}
+    defaults: {_controller: AdminBundle:Default:CallbackUser}
+
+test:
+    path: /admin/test
+    defaults: {_controller: AdminBundle:Default:test}
+    
+delete_image:
+    path:     /admin/delete/img/{id}
+    defaults: { _controller: AdminBundle:Default:deleteImage }
+
+
+   

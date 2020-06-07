@@ -1,0 +1,69 @@
+{% extends "AdminBundle:Default:nav.html.twig" %}
+{% block title %} Reviews {% endblock %}
+{% block VariableContent %}
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            	<a href="{{ path('fos_user_profile_edit')}}">My profile</a> 
+        </li>
+        <li class="breadcrumb-item active">Reviews</li>
+    </ol>
+    <center>
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger" role="alert" style="width: 830px ; text-align: center">{{flashMessage}} </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success" role="alert" style="width: 830px ; text-align: center">{{flashMessage}} </div>
+        {% endfor %}
+    </center>
+    <div class="box_general">
+        <div class="header_box">
+            <h2 class="d-inline-block">Reviews</h2>
+        </div>
+        <div class="list_general">
+            <ul>
+                {% for review in app.user.reviews %}
+                <li>
+                    <span>{{ review.createdat|date('d/m/Y ') }}</span>
+                    {% if review.rating != 0 %}
+                    <span class="rating" data-rating="{{ review.rating }}">
+                        <i class="demo-icon icon-Reviews"></i>
+                        <i class="demo-icon icon-Reviews"></i>
+                        <i class="demo-icon icon-Reviews"></i>
+                        <i class="demo-icon icon-Reviews"></i>
+                        <i class="demo-icon icon-Reviews"></i>
+                    </span>
+                    {% endif %}
+                    <figure> {% for image in review.activity.image %}
+                        <img src="{{asset(image.path)}}">
+                        {% endfor %}
+                    </figure>
+                    <h4>{{ review.activity.title }}</h4>
+                    <p> {{ review.content }}</p>
+                    <p>
+                        <a href="{{path('navigation_delete_reviews',{id: review.id})}}" class="btn_1 gray delete"><i
+                                class="demo-icon icon-Delete"></i> Delete</a>
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+</div>
+</div>
+{% include "AdminBundle:Default:nav.html.twig" %}
+{% block javascripts %}
+<script src="{{asset ("bundles/admin/js/admin.js") }}"> </script>
+{% endblock %}
+<script>
+    $('.rating').each(function () {
+        thisrating = $(this);
+        for (i = 0; i <= parseInt(thisrating.data('rating')); i++) {
+            $(thisrating).find('i:nth-child(' + i + ')').addClass('yellow');
+        }
+    })
+</script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% block fos_message_content %}
+
+
+<form action="{{ url('fos_message_thread_new') }}" method="post" class="FormMsg">
+{{ form_start(form) }}
+    {{ form_widget(form.recipient,{'label':'Adresse e-mail',
+					'attr':{'placeholder':'Email address','class':'form-control invisible'}})
+    }}
+    <br>
+    {{ form_widget(form.subject,{'label':'Adresse e-mail',
+					'attr':{'placeholder':'Subject','class':'form-control' }}) }}
+    <br>
+    {{ form_widget(form.body,{'label':'Adresse e-mail',
+					'attr':{'placeholder':'Body','class':'form-control'}}) }}
+    <br>
+
+    <input type="submit" class="btn btn-warning" value="submit" style="float:right" />
+{{ form_rest(form) }}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--Datetime picker cdn-->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<script>
+document.getElementsByName("message[recipient]")[0].setAttribute("value", "admin");
+</script>
+
+<script>
+		$('body').on('submit', '.FormMsg', function (e) {
+
+			e.preventDefault();
+
+			$.ajax({
+				type: $(this).attr('method'),
+				url: $(this).attr('action'),
+				data: $(this).serialize(),
+	
+				success: function (data) {
+	
+						$.alert("Message sent. We will reach out soon.");
+					
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					if (typeof jqXHR.responseJSON !== 'undefined') {
+						if (jqXHR.responseJSON.hasOwnProperty('form')) {
+							$.alert(jqXHR.responseJSON.form);
+						}
+
+						$.alert(jqXHR.responseJSON.message);
+
+					} else {
+						$.alert(errorThrown);
+					}
+				}
+			})
+		});
+
+</script>
+{% endblock %}
+{% endblock %}
